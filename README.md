@@ -1,9 +1,19 @@
 # control-sneak-app
 
-##Install Cordova & Ionic Frameworks
+##Get Dependencies
+###Node
+Install node.js, installers can be found here:[Get Node](https://nodejs.org/download/)
+
+run:
+
+`npm install`
+
+This will download packages found in packages.json.
+
+###Install Cordova & Ionic Frameworks
 `sudo npm install -g cordova ionic`
 
-##Install Dependencies
+###Install Dependencies
 from within the application directory run:
 
 `npm install`
