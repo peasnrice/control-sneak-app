@@ -3,29 +3,26 @@
       <div class="row">
           <img src="./img/logo.png" class="login-logo">
       </div>
+        <label class="item item-input">
+          <input type="text" placeholder="Username">
+        </label>
+        <label class="item item-input">
+          <input type="password" placeholder="Password">
+        </label>
       <div class="row min-height-50">
-          <button class="col social-button" ng-click="facebookLogin()">
-            <i class="ion-social-facebook"></i>
-            <div class="social-text">FACEBOOK</div>
-          </button>
+        <button class="col orange-button" ng-click="Login()">
+          <div class="orange-button-text">LOGIN</div>
+        </button>
       </div>
       <div class="row min-height-50">
-          <button class="col social-button">
-              <i class="ion-social-google"></i>
-              <div class="social-text">GOOGLE</div>
-          </button>
+        <button class="col orange-button" ng-click="SignUp()">
+            <div class="orange-button-text">SIGN UP</div>
+        </button>
       </div>
       <div class="row min-height-50">
-          <button class="col social-button">
-              <i class="ion-social-github"></i>
-              <div class="social-text">GITHUB</div>
-          </button>
-      </div>      
-      <div id="email" class="row min-height-50">
-          <button class="col social-button" ng-click="EmailSignup()">
-              <i class="ion-email"></i>
-              <div class="social-text">EMAIL LOGIN</div>
-          </button>
+        <button class="col orange-button" ng-click="ForgotPassword()">
+            <div class="orange-button-text">FORGOT PASSWORD</div>
+        </button>
       </div>
   </ion-content>
 </ion-view>
