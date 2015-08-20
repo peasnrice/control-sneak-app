@@ -1,7 +1,19 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $http, $state, $cordovaFacebook) {
+.controller('LoginCtrl', function($scope, $http, $state, $cordovaFacebook) {
     
+  var tabs = document.querySelectorAll('div.tabs')[0];
+  tabs = angular.element(tabs);
+  tabs.css('display','none');
+    
+  $scope.$on('$destroy', function(){
+    tabs.css('display', '');
+  });
+    
+  $scope.EmailSignup = function() {
+    $state.go('emaillogin');
+  };
+  
   $scope.facebookLogin = function () {
       console.log("not already logged in");
       $cordovaFacebook.login(["public_profile", "email", "user_friends"]).then(function(success) {
