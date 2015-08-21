@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('LoginCtrl', function($scope, $http, $state, $cordovaFacebook) {
+.controller('SocialLoginCtrl', function($scope, $http, $state, $cordovaFacebook) {
     
   var tabs = document.querySelectorAll('div.tabs')[0];
   tabs = angular.element(tabs);
@@ -10,9 +10,10 @@ angular.module('starter.controllers', [])
     tabs.css('display', '');
   });
     
-  $scope.EmailSignup = function() {
+  $scope.GoToEmailLogin = function() {
     $state.go('emaillogin');
   };
+
   
   $scope.facebookLogin = function () {
       console.log("not already logged in");
@@ -53,6 +54,49 @@ angular.module('starter.controllers', [])
     });
   };
     
+})
+
+.controller('EmailLoginCtrl', function($scope, $http, $state) {
+  
+  var tabs = document.querySelectorAll('div.tabs')[0];
+  tabs = angular.element(tabs);
+  tabs.css('display','none');
+    
+  $scope.$on('$destroy', function(){
+    tabs.css('display', '');
+  });
+    
+  $scope.GoToEmailSignup = function() {
+    $state.go('emailsignup');
+  };
+  
+  $scope.GoToForgotPassword = function() {
+    $state.go('forgotpassword');
+  };
+})
+
+.controller('EmailSignUpCtrl', function($scope, $http, $state) {
+  
+  var tabs = document.querySelectorAll('div.tabs')[0];
+  tabs = angular.element(tabs);
+  tabs.css('display','none');
+    
+  $scope.$on('$destroy', function(){
+    tabs.css('display', '');
+  });
+   
+})
+
+.controller('ForgotPasswordCtrl', function($scope, $http, $state) {
+  
+  var tabs = document.querySelectorAll('div.tabs')[0];
+  tabs = angular.element(tabs);
+  tabs.css('display','none');
+    
+  $scope.$on('$destroy', function(){
+    tabs.css('display', '');
+  });
+  
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
