@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('SocialLoginCtrl', function($scope, $http, $state, $cordovaFacebook) {
+.controller('SocialLoginCtrl', function($scope, $http, $state, $cordovaFacebook, $cordovaOauth) {
     
   var tabs = document.querySelectorAll('div.tabs')[0];
   tabs = angular.element(tabs);
@@ -14,14 +14,29 @@ angular.module('starter.controllers', [])
     $state.go('emaillogin');
   };
 
-  
+
+//	$scope.facebookLogin = function() {
+//		console.log("not already logged in");
+//		$cordovaOauth.facebook("1678602979038851", ["public_profile", "email", "user_friends"]).then(function(result) {
+//			$scope.access_token = success.authResponse.accessToken;
+//            console.log($scope.access_token);
+//		}, function(error) {
+//			// error
+//		});
+//	};
+//	
+ 
+	
   $scope.facebookLogin = function () {
       console.log("not already logged in");
       $cordovaFacebook.login(["public_profile", "email", "user_friends"]).then(function(success) {
           $scope.access_token = success.authResponse.accessToken;
           console.log($scope.access_token);
-          $http.post("http://localhost:3000/login/facebook/", {access_token: $scope.access_token}).then(function(success) {
-              console.log("that happened");
+
+		  var url = "http://localhost:3000/login/facebook/?access_token=" + $scope.access_token;
+		  
+          $http.post(url).then(function(success) {
+			  console.log(success);
 //            window.localStorage['app_token'] = success.data.key;
 //            console.log(window.localStorage['app_token']);
 //            $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
