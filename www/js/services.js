@@ -1,5 +1,18 @@
 angular.module('starter.services', [])
 
+.factory('Games', function($http) {
+  var games = [];
+
+  return {
+    getGames: function(){
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post("http://localhost:8080/games").then(function(success){
+        games = success.data.games;
+        return games;
+      });
+    }
+  }
+})
 
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array

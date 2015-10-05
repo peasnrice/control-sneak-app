@@ -114,7 +114,7 @@ angular.module('starter.controllers', [])
 		$http.post("http://localhost:8080/login", {email: $scope.username, password : $scope.password}).then(function(success) {
       // save the app token locally on the device and save it to the header of all future requests.
       window.localStorage['x-access-token'] = success.data.token;
-      $http.defaults.headers.common['x-access-token'] = "Token " + window.localStorage['app_token'];
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
 
       // go to game list screen
       $state.go('gamelist');
@@ -170,8 +170,9 @@ angular.module('starter.controllers', [])
   
 })
 
-.controller('GameListCtrl', function($scope, $http, $state){
-
+.controller('GameListCtrl', function($scope, $http, $state, Games){
+  var games = Games.getGames();
+  console.log(games);
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
