@@ -24,8 +24,29 @@ angular.module('starter.controllers', [])
 //			// error
 //		});
 //	};
-//	
- 
+	
+ 	var GOOGLE_CLIENT_ID = "470500124066-oig3diapgk68ghimd0k5ktv6bro8leji.apps.googleusercontent.com";
+	
+	$scope.googleLogin = function() {
+		$cordovaOauth.google(GOOGLE_CLIENT_ID, ["email"]).then(function(success) {
+			$scope.access_token = success.access_token;
+			console.log($scope.access_token);
+			var url = "http://localhost:3000/login/google/?access_token=" + $scope.access_token;
+			$http.post(url).then(function(success) {
+				console.log(success);
+	//            	window.localStorage['app_token'] = success.data.key;
+	//            	console.log(window.localStorage['app_token']);
+	//            	$http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
+	//            	console.log("Success");
+	//            	$state.go('tab.play');
+	//            	console.log("we got code: " + $scope.app_token);
+			}, function(error) {
+				// console.log("couldn't get api key");
+		  });
+	   }, function (error) {
+		console.log("facebook login failed");
+	   });
+	};
 	
   $scope.facebookLogin = function () {
       console.log("not already logged in");
@@ -37,12 +58,12 @@ angular.module('starter.controllers', [])
 		  
           $http.post(url).then(function(success) {
 			  console.log(success);
-//            window.localStorage['app_token'] = success.data.key;
-//            console.log(window.localStorage['app_token']);
-//            $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
-//            console.log("Success");
-//            $state.go('tab.play');
-//            console.log("we got code: " + $scope.app_token);
+           // window.localStorage['x-access-token'] = success.data.token;
+           // console.log(window.localStorage['app_token']);
+           // $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
+           // console.log("Success");
+           // $state.go('tab.play');
+           // console.log("we got code: " + $scope.app_token);
             }, function(error) {
               // console.log("couldn't get django api key");
           });
@@ -53,7 +74,7 @@ angular.module('starter.controllers', [])
    };
 
   $scope.logout = function () {
-    $http.post("http://localhost:8100/rest-auth/logout/").then(function(success) {
+    $http.post("http://localhost:8080/rest-auth/logout/").then(function(success) {
           $http.defaults.headers.common['Authorization'] = undefined;
           $cordovaFacebook.logout()
             .then(function(success) {
@@ -88,6 +109,20 @@ angular.module('starter.controllers', [])
   $scope.GoToForgotPassword = function() {
     $state.go('forgotpassword');
   };
+	
+	$scope.login = function() {
+		$http.post("http://localhost:8080/login", {email: $scope.username, password : $scope.password}).then(function(success) {
+      // save the app token locally on the device and save it to the header of all future requests.
+      window.localStorage['x-access-token'] = success.data.token;
+      $http.defaults.headers.common['x-access-token'] = "Token " + window.localStorage['app_token'];
+
+      // go to game list screen
+      $state.go('gamelist');
+		}, function(err) {
+			console.log(err);
+		});
+	};
+
 })
 
 .controller('EmailSignUpCtrl', function($scope, $http, $state) {
@@ -99,6 +134,27 @@ angular.module('starter.controllers', [])
   $scope.$on('$destroy', function(){
     tabs.css('display', '');
   });
+	
+	$scope.signup = function() {
+		console.log($scope.username);
+		console.log($scope.password);
+
+    $http({
+      url: "http://localhost:8080/signup", 
+      method: "POST",
+      params: {email: $scope.username, password: $scope.password}
+    }).then(function(success) {
+      console.log(success);
+    }, function(err) {
+      console.log(err);
+    });;
+
+		// $http.post("http://localhost:8080/signup", {username: $scope.username, password : $scope.password}).then(function(success) {
+		// 	console.log(success);
+		// }, function(err) {
+		// 	console.log(err);
+		// });
+	};
    
 })
 
@@ -112,6 +168,10 @@ angular.module('starter.controllers', [])
     tabs.css('display', '');
   });
   
+})
+
+.controller('GameListCtrl', function($scope, $http, $state){
+
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {

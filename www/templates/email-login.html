@@ -3,17 +3,19 @@
       <div class="row">
           <img src="./img/logo.png" class="login-logo">
       </div>
-        <label class="item item-input">
-          <input type="text" placeholder="Username">
-        </label>
-        <label class="item item-input">
-          <input type="password" placeholder="Password">
-        </label>
-      <div class="row min-height-50">
-        <button class="col orange-button">
-          <div class="orange-button-text">LOGIN</div>
-        </button>
-      </div>
+	  <form ng-submit="login()" ng-controller="EmailLoginCtrl">
+		<label class="item item-input">
+		  <input type="text" placeholder="Username" ng-model="username" name="username">
+		</label>
+		<label class="item item-input">
+		  <input type="password" placeholder="Password" ng-model="password" name="password">
+		</label>
+		<div class="row min-height-50">
+		<button class="col orange-button" id="submit" value="Submit" type="submit">
+		  <div class="orange-button-text">LOGIN</div>
+		</button>
+		</div>
+	  </form>
       <div class="row min-height-50">
         <button class="col orange-button" ng-click="GoToEmailSignup()">
             <div class="orange-button-text">SIGN UP</div>
