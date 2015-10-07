@@ -163,16 +163,25 @@ angular.module('starter.controllers', [])
   var tabs = document.querySelectorAll('div.tabs')[0];
   tabs = angular.element(tabs);
   tabs.css('display','none');
-    
+
   $scope.$on('$destroy', function(){
     tabs.css('display', '');
   });
-  
 })
 
 .controller('GameListCtrl', function($scope, $http, $state, Games){
-  var games = Games.getGames();
-  console.log(games);
+  Games.all().then(function(games){
+    $scope.games = games;
+  });
+  // Games.get('56061bac4b8c068c6e2712be').then(function(game){
+  //   $scope.game = game;
+  // });
+})
+
+.controller('GameRoomCtrl', function($scope, $http, $state, Games){
+  Games.get($stateParams.gameId).then(function(game){
+    $scope.game = game;
+  });
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {

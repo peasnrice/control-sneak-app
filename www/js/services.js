@@ -4,11 +4,26 @@ angular.module('starter.services', [])
   var games = [];
 
   return {
-    getGames: function(){
+    all: function() {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-      return $http.post("http://localhost:8080/games").then(function(success){
-        games = success.data.games;
-        return games;
+      return $http({ url: "http://localhost:8080/games", method: "POST"}).then(function(success){
+        if(success.data.games){
+          return success.data.games;
+        }
+        else  
+          return null;
+      });
+    },
+    get: function(gameId) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      console.log(gameId);
+      return $http.post('http://localhost:8080/games', {'game-id':gameId}).then(function(success){
+        console.log(JSON.stringify(success.data));
+        if(success.data.game){
+          return success.data.game;
+        }
+        else  
+          return null;
       });
     }
   }

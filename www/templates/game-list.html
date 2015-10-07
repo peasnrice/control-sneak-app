@@ -1,5 +1,12 @@
-<ion-view name="gamelist" hide-nav-bar="false" view-title="Game List" class="background-flesh">
+<ion-view ng-controller="GameListCtrl" name="gamelist" hide-nav-bar="false" view-title="Game List" class="background-flesh">
   <ion-content class="padding" scroll="true">
-     hello world
+    <ion-list>
+      <ion-item ng-repeat="game in games" href="#/games/{{game.id}}">
+        <h2 ng-show="game.name != null">Name: {{ game.name }}</h2>
+        <h2 ng-show="game.motto != null">Motto: {{ game.motto }}</h2>
+        <h2 ng-show="game.players != null">Players: {{ game.players }}</h2>
+        <h2 ng-show="game.has_password != null">Password: {{ game.has_password }}</h2>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>
