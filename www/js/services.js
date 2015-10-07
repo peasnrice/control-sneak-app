@@ -18,7 +18,6 @@ angular.module('starter.services', [])
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
       console.log(gameId);
       return $http.post('http://localhost:8080/games', {'game-id':gameId}).then(function(success){
-        console.log(JSON.stringify(success.data));
         if(success.data.game){
           return success.data.game;
         }

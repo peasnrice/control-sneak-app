@@ -56,9 +56,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   .state('gamelist', {
-    url: '/game-list',
+    url: '/games',
     templateUrl: 'templates/game-list.html',
     controller: 'GameListCtrl',
+  })
+
+  .state('gameroom', {
+    url: '/games/:gameId',
+    templateUrl: 'templates/game-room.html',
+    controller: 'GameRoomCtrl',
   })
   
   // setup an abstract state for the tabs directive

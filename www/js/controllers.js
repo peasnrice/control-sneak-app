@@ -173,12 +173,12 @@ angular.module('starter.controllers', [])
   Games.all().then(function(games){
     $scope.games = games;
   });
-  // Games.get('56061bac4b8c068c6e2712be').then(function(game){
-  //   $scope.game = game;
-  // });
+  $scope.JoinGameRoom = function(){
+    $state.go('gameroom');
+  }
 })
 
-.controller('GameRoomCtrl', function($scope, $http, $state, Games){
+.controller('GameRoomCtrl', function($scope, $http, $state, $stateParams, Games){
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });
