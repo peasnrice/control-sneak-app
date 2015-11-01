@@ -127,3 +127,18 @@
     margin-top: 1px;  
     box-shadow: none;
 }
+
+/*.menu-nav {
+    top: 15px;
+    position: absolute;
+    left: 15px;
+    font-size: 30px;
+}
+
+.menu-nav:hover {
+    top: 15px;
+    position: absolute;
+    left: 15px;
+    font-size: 30px;
+    cursor: pointer;
+}*/

@@ -1,4 +1,4 @@
-<ion-view ng-controller="GameRoomCtrl" name="gameroom" hide-nav-bar="false" view-title="{{ game.name }}" class="background-flesh">
+<ion-view ng-controller="GameRoomCtrl" name="gameroom" hide-nav-bar="false" hide-back-button="false" view-title="{{ game.name }}" class="background-flesh">
   <ion-content class="padding" scroll="true">
     <ion-list>
       <ion-item>
@@ -8,8 +8,8 @@
       <ion-item ng-repeat="message in game.messages">
         <h2 ng-show="message.recipient != nill">Recipient: {{ message.recipient }}</h2>
         <h2 ng-show="message.recipient != nill">Sender: {{ message.sender }}</h2>
-        <h2 ng-show="message.action[0] != nill">action: {{ message.action }}</h2>
-        <h2 ng-show="message.phrase[0] != nill">phrase: {{ message.phrase }}</h2>
+        <h2 ng-show="message.action[0].sentence != nill">action: {{ message.action[0].sentence }}</h2>
+        <h2 ng-show="message.phrase[0].sentence != nill">phrase: {{ message.phrase[0].sentence }}</h2>
         <h2 ng-show="message.word != nill">word: {{ message.word }}</h2>
       </ion-item>
     </ion-list>
