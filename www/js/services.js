@@ -24,6 +24,19 @@ angular.module('starter.services', [])
         else  
           return null;
       });
+    },
+    join: function(gameId) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      console.log(gameId);
+      return $http.post('http://localhost:8080/games/join', {'game-id':gameId}).then(function(success){
+        if(success.data.game){
+          console.log("success.data.game");
+          console.log("hurrr");
+          return success.data.game;
+        }
+        else  
+          return null;
+      });
     }
   }
 })

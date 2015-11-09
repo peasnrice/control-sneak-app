@@ -157,12 +157,16 @@ angular.module('starter.controllers', [])
   });  
 })
 
-.controller('TabOneController', function($scope, $ionicSideMenuDelegate) {
+.controller('ProfileController', function($scope, $ionicSideMenuDelegate) {
+
 })
-.controller('TabTwoController', function($scope, $ionicSideMenuDelegate) {
+.controller('SettingsController', function($scope, $ionicSideMenuDelegate) {
+
 })
-.controller('TabThreeController', function($scope, $ionicSideMenuDelegate) {
+.controller('GlobalStatsController', function($scope, $ionicSideMenuDelegate) {
+  
 })
+
 
 .controller('SocialLoginCtrl', function($scope, $http, $state, $cordovaFacebook, $cordovaOauth) {
     
@@ -373,30 +377,30 @@ angular.module('starter.controllers', [])
 //   });
 // })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+// .controller('ChatsCtrl', function($scope, Chats) {
+//   // With the new view caching in Ionic, Controllers are only called
+//   // when they are recreated or on app start, instead of every page change.
+//   // To listen for when this page is active (for example, to refresh data),
+//   // listen for the $ionicView.enter event:
+//   //
+//   //$scope.$on('$ionicView.enter', function(e) {
+//   //});
   
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
-})
+//   $scope.chats = Chats.all();
+//   $scope.remove = function(chat) {
+//     Chats.remove(chat);
+//   }
+// })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
+// .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+//   $scope.chat = Chats.get($stateParams.chatId);
+// })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-})
+// .controller('AccountCtrl', function($scope) {
+//   $scope.settings = {
+//     enableFriends: true
+//   };
+// })
 
 .controller('NavCtrl', function($scope, $ionicSideMenuDelegate) {
   $scope.showMenu = function () {

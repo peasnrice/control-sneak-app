@@ -262,6 +262,36 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         })
 
+        .state('menu.profile', {
+            url: '/profile',
+            views: {
+                'view-content': {
+                    templateUrl: 'templates/profile.html',
+                    controller: 'ProfileController'
+                }
+            }
+        })
+
+        .state('menu.settings', {
+            url: '/settings',
+            views: {
+                'view-content': {
+                    templateUrl: 'templates/settings.html',
+                    controller: 'SettingsController'
+                }
+            }
+        })
+
+        .state('menu.global-stats', {
+            url: '/global-stats',
+            views: {
+                'view-content': {
+                    templateUrl: 'templates/global-stats.html',
+                    controller: 'GlobalStatsController'
+                }
+            }
+        })
+
         // #/game/{{game.id}}/create
 
         // .state('menu.drink', {
