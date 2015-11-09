@@ -1,5 +1,169 @@
 angular.module('starter.controllers', [])
 
+.controller('MenuController', function($scope, $ionicSideMenuDelegate) {
+  $scope.toggleLeft = function() {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
+})
+.controller('Controller', function($scope, $ionicSideMenuDelegate) {
+})
+.controller('HomeController', function($scope, $http, $state, $cordovaFacebook, $cordovaOauth, $ionicSideMenuDelegate) {
+    
+  var tabs = document.querySelectorAll('div.tabs')[0];
+  tabs = angular.element(tabs);
+  tabs.css('display','none');
+    
+  $scope.$on('$destroy', function(){
+    tabs.css('display', '');
+  });
+    
+  $scope.GoToEmailLogin = function() {
+    $state.go('menu.email-login');
+  };
+
+
+//  $scope.facebookLogin = function() {
+//    console.log("not already logged in");
+//    $cordovaOauth.facebook("1678602979038851", ["public_profile", "email", "user_friends"]).then(function(result) {
+//      $scope.access_token = success.authResponse.accessToken;
+//            console.log($scope.access_token);
+//    }, function(error) {
+//      // error
+//    });
+//  };
+  
+  var GOOGLE_CLIENT_ID = "470500124066-oig3diapgk68ghimd0k5ktv6bro8leji.apps.googleusercontent.com";
+  
+  $scope.googleLogin = function() {
+    $cordovaOauth.google(GOOGLE_CLIENT_ID, ["email"]).then(function(success) {
+      $scope.access_token = success.access_token;
+      console.log($scope.access_token);
+      var url = "http://localhost:3000/login/google/?access_token=" + $scope.access_token;
+      $http.post(url).then(function(success) {
+        console.log(success);
+  //              window.localStorage['app_token'] = success.data.key;
+  //              console.log(window.localStorage['app_token']);
+  //              $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
+  //              console.log("Success");
+  //              $state.go('tab.play');
+  //              console.log("we got code: " + $scope.app_token);
+      }, function(error) {
+        // console.log("couldn't get api key");
+      });
+     }, function (error) {
+    console.log("google login failed");
+     });
+  };
+  
+  $scope.facebookLogin = function () {
+      console.log("not already logged in");
+      $cordovaFacebook.login(["public_profile", "email", "user_friends"]).then(function(success) {
+          $scope.access_token = success.authResponse.accessToken;
+          console.log($scope.access_token);
+
+      var url = "http://localhost:3000/login/facebook/?access_token=" + $scope.access_token;
+      
+          $http.post(url).then(function(success) {
+        console.log(success);
+           // window.localStorage['x-access-token'] = success.data.token;
+           // console.log(window.localStorage['app_token']);
+           // $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
+           // console.log("Success");
+           // $state.go('tab.play');
+           // console.log("we got code: " + $scope.app_token);
+            }, function(error) {
+              // console.log("couldn't get django api key");
+          });
+       }, function (error) {
+        console.log("facebook login failed");
+       });
+     // });
+   };
+
+  $scope.logout = function () {
+    $http.post("http://localhost:8080/rest-auth/logout/").then(function(success) {
+          $http.defaults.headers.common['Authorization'] = undefined;
+          $cordovaFacebook.logout()
+            .then(function(success) {
+              console.log("logout succesful");
+            }, function (error) {
+              console.error('ERR', err);
+              $state.go('signin');
+            });
+          $state.go('signin');
+        }, function(err) {
+          console.error('ERR', err);
+          $state.go('signin');
+    });
+  }; 
+})
+.controller('EmailLoginController', function($scope, $http, $state, $ionicSideMenuDelegate) {
+  var tabs = document.querySelectorAll('div.tabs')[0];
+  tabs = angular.element(tabs);
+  tabs.css('display','none');
+    
+  $scope.$on('$destroy', function(){
+    tabs.css('display', '');
+  });
+    
+  $scope.GoToEmailSignup = function() {
+    $state.go('menu.emailsignup');
+  };
+  
+  $scope.GoToForgotPassword = function() {
+    $state.go('menu.forgotpassword');
+  };
+  
+  $scope.login = function() {
+    $http.post("http://localhost:8080/login", {email: $scope.username, password : $scope.password}).then(function(success) {
+      // save the app token locally on the device and save it to the header of all future requests.
+      window.localStorage['x-access-token'] = success.data.token;
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      // go to game list screen
+      $state.go('menu.game-list');
+    }, function(err) {
+      console.log(err);
+    });
+  };
+})
+
+.controller('GameListController', function($scope, $http, $state, Games, $ionicSideMenuDelegate) {
+  Games.all().then(function(games){
+    $scope.games = games;
+  });
+})
+
+.controller('GameRoomCreateController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+  Games.join($stateParams.gameId).then(function(game){
+    $scope.game = game;
+  });
+})
+
+.controller('GameRoomReceiveController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+  Games.join($stateParams.gameId).then(function(game){
+    $scope.game = game;
+  });  
+})
+
+.controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+  Games.join($stateParams.gameId).then(function(game){
+    $scope.game = game;
+  });  
+})
+
+.controller('GameRoomScoreController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+  Games.join($stateParams.gameId).then(function(game){
+    $scope.game = game;
+  });  
+})
+
+.controller('TabOneController', function($scope, $ionicSideMenuDelegate) {
+})
+.controller('TabTwoController', function($scope, $ionicSideMenuDelegate) {
+})
+.controller('TabThreeController', function($scope, $ionicSideMenuDelegate) {
+})
+
 .controller('SocialLoginCtrl', function($scope, $http, $state, $cordovaFacebook, $cordovaOauth) {
     
   var tabs = document.querySelectorAll('div.tabs')[0];
@@ -11,7 +175,7 @@ angular.module('starter.controllers', [])
   });
     
   $scope.GoToEmailLogin = function() {
-    $state.go('emaillogin');
+    $state.go('menu.emaillogin');
   };
 
 
@@ -103,11 +267,11 @@ angular.module('starter.controllers', [])
   });
     
   $scope.GoToEmailSignup = function() {
-    $state.go('emailsignup');
+    $state.go('menu.emailsignup');
   };
   
   $scope.GoToForgotPassword = function() {
-    $state.go('forgotpassword');
+    $state.go('menu.forgotpassword');
   };
 	
 	$scope.login = function() {
@@ -117,7 +281,7 @@ angular.module('starter.controllers', [])
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
 
       // go to game list screen
-      $state.go('gamelist');
+      $state.go('menu.gamelist');
 		}, function(err) {
 			console.log(err);
 		});
@@ -174,15 +338,40 @@ angular.module('starter.controllers', [])
     $scope.games = games;
   });
   $scope.JoinGameRoom = function(){
-    $state.go('gameroom');
+    $state.go('gameroom.create');
   }
 })
 
 .controller('GameRoomCtrl', function($scope, $http, $state, $stateParams, Games){
-  Games.get($stateParams.gameId).then(function(game){
+  Games.join($stateParams.gameId).then(function(game){
     $scope.game = game;
   });
 })
+
+.controller('CreateCtrl', function($scope, $http, $state){
+  console.log("got here");
+  // Games.join($stateParams.gameId).then(function(game){
+  //   $scope.game = game;
+  // });
+})
+
+// .controller('MessagesCtrl', function($scope, $stateParams, Games){
+//   Games.join($stateParams.gameId).then(function(game){
+//     $scope.game = game;
+//   });
+// })
+
+// .controller('SneakyBoardCtrl', function($scope, $stateParams, Games){
+//   Games.join($stateParams.gameId).then(function(game){
+//     $scope.game = game;
+//   });
+// })
+
+// .controller('StatsCtrl', function($scope, $stateParams, Games){
+//   Games.join($stateParams.gameId).then(function(game){
+//     $scope.game = game;
+//   });
+// })
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called

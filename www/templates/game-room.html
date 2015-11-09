@@ -1,8 +1,12 @@
-<ion-view ng-controller="GameRoomCtrl" name="gameroom" hide-nav-bar="false" hide-back-button="false" view-title="{{ game.name }}" class="background-flesh">
+<ion-view name="gameroom" hide-nav-bar="false" hide-back-button="false" view-title="{{ game.name }}" class="background-flesh">
   <ion-content class="padding" scroll="true">
     <ion-list>
       <ion-item>
         <h2>Name: {{ game.name }}</h2>
+      </ion-item>
+      <h2> Players </h2>
+      <ion-item ng-repeat="player in game.players">
+        <h2>ID: {{ player.handle }}</h2>
       </ion-item>
       <h2> Messages </h2>
       <ion-item ng-repeat="message in game.messages">
@@ -15,5 +19,3 @@
     </ion-list>
   </ion-content>
 </ion-view>
-
-ng-show="game.name != null"

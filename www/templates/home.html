@@ -1,0 +1,36 @@
+<ion-view title="Login Page" hide-back-button="true">
+  <!-- Add ion-content to remove the hamburger menu on login screens-->
+  <ion-content>
+    <ion-nav-buttons side="left">
+      <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+
+    <div class="row">
+        <img src="./img/logo.png" class="login-logo">
+    </div>
+    <div class="row min-height-50">
+        <button class="col social-button" ng-click="facebookLogin()">
+          <i class="ion-social-facebook"></i>
+          <div class="social-text">FACEBOOK</div>
+        </button>
+    </div>
+    <div class="row min-height-50">
+        <button class="col social-button" ng-click="googleLogin()">
+            <i class="ion-social-google"></i>
+            <div class="social-text">GOOGLE</div>
+        </button>
+    </div>
+    <div class="row min-height-50">
+        <button class="col social-button">
+            <i class="ion-social-github"></i>
+            <div class="social-text">GITHUB</div>
+        </button>
+    </div>      
+    <div id="email" class="row min-height-50">
+        <button class="col social-button" ng-click="GoToEmailLogin()">
+            <i class="ion-email"></i>
+            <div class="social-text">EMAIL LOGIN</div>
+        </button>
+    </div>
+  </ion-content>
+</ion-view>

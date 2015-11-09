@@ -1,0 +1,42 @@
+<ion-view title="Game Room - Scores n Stats" hide-back-button="true">    
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="padding" scroll="true">
+    <ion-list>
+      <ion-item>
+        <h2>Name: {{ game.name }}</h2>
+      </ion-item>
+      <h2> Players </h2>
+      <ion-item ng-repeat="player in game.players">
+        <h2>ID: {{ player.handle }}</h2>
+      </ion-item>
+      <h2> Messages </h2>
+      <ion-item ng-repeat="message in game.messages">
+        <h2 ng-show="message.recipient != nill">Recipient: {{ message.recipient }}</h2>
+        <h2 ng-show="message.recipient != nill">Sender: {{ message.sender }}</h2>
+        <h2 ng-show="message.action[0].sentence != nill">action: {{ message.action[0].sentence }}</h2>
+        <h2 ng-show="message.phrase[0].sentence != nill">phrase: {{ message.phrase[0].sentence }}</h2>
+        <h2 ng-show="message.word != nill">word: {{ message.word }}</h2>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+    <div class="tabs tabs-icon-only">
+      <!-- Create a message -->
+      <a nav-clear nav-transition="none" class="tab-item disable-user-behavior" title="Create" icon-on="ion-ios-compose" icon-off="ion-ios-compose-outline" ui-sref="menu.game-room-create({gameId: game._id})">
+        <i class="icon ion-ios-compose"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+      <!-- Message list -->
+      <a nav-clear nav-transition="none" class="tab-item disable-user-behavior" title="Messages" icon-on="ion-ios-email" icon-off="ion-ios-email-outline" ui-sref="menu.game-room-receive({gameId: game._id})">
+        <i class="icon ion-ios-email"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+      <!-- Sneaky Board -->
+      <a nav-clear nav-transition="none" class="tab-item disable-user-behavior" title="Sneaky Board" icon-on="ion-ios-list" icon-off="ion-ios-list-outline" ui-sref="menu.game-room-sneaks({gameId: game._id})">
+        <i class="icon ion-ios-list"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+      <!-- Scores n Stats -->
+      <a nav-clear nav-transition="none" class="tab-item disable-user-behavior active" title="Scores n Stats" icon-on="ion-ios-flower" icon-off="ion-ios-flower-outline" ui-sref="menu.game-room-score({gameId: game._id})">
+        <i class="icon ion-ios-flower"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+    </div>
+</ion-view>

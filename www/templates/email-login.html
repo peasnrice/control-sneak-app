@@ -1,30 +1,30 @@
-<ion-view name="emaillogin" hide-nav-bar="false" view-title="Email Login" class="background-flesh">
-  <ion-content class="padding" scroll="true">
-      <div class="row">
-          <img src="./img/logo.png" class="login-logo">
-      </div>
-	  <form ng-submit="login()" ng-controller="EmailLoginCtrl">
-		<label class="item item-input">
-		  <input type="text" placeholder="Username" ng-model="username" name="username">
-		</label>
-		<label class="item item-input">
-		  <input type="password" placeholder="Password" ng-model="password" name="password">
-		</label>
-		<div class="row min-height-50">
-		<button class="col orange-button" id="submit" value="Submit" type="submit">
-		  <div class="orange-button-text">LOGIN</div>
-		</button>
-		</div>
-	  </form>
-      <div class="row min-height-50">
-        <button class="col orange-button" ng-click="GoToEmailSignup()">
-            <div class="orange-button-text">SIGN UP</div>
-        </button>
-      </div>
-      <div class="row min-height-50">
-        <button class="col orange-button" ng-click="GoToForgotPassword()">
-            <div class="orange-button-text">FORGOT PASSWORD</div>
-        </button>
-      </div>
+<ion-view title="Email Login">
+  <ion-content>
+    <div class="row">
+        <img src="./img/logo.png" class="login-logo">
+    </div>
+  <form ng-submit="login()" ng-controller="EmailLoginController">
+	<label class="item item-input">
+	  <input type="text" placeholder="Username" ng-model="username" name="username">
+	</label>
+	<label class="item item-input">
+	  <input type="password" placeholder="Password" ng-model="password" name="password">
+	</label>
+	<div class="row min-height-50">
+	<button class="col orange-button" id="submit" value="Submit" type="submit">
+	  <div class="orange-button-text">LOGIN</div>
+	</button>
+	</div>
+  </form>
+    <div class="row min-height-50">
+      <button class="col orange-button" ng-click="GoToEmailSignup()">
+          <div class="orange-button-text">SIGN UP</div>
+      </button>
+    </div>
+    <div class="row min-height-50">
+      <button class="col orange-button" ng-click="GoToForgotPassword()">
+          <div class="orange-button-text">FORGOT PASSWORD</div>
+      </button>
+    </div>
   </ion-content>
 </ion-view>
