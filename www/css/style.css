@@ -128,6 +128,11 @@
     box-shadow: none;
 }
 
+.player-list{
+  max-height: 20px;
+  overflow: hidden;
+}
+
 /*.menu-nav {
     top: 15px;
     position: absolute;

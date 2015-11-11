@@ -4,21 +4,33 @@
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
     <ion-list>
-      <ion-item>
-        <h2>Name: {{ game.name }}</h2>
-      </ion-item>
-      <h2> Players </h2>
-      <ion-item ng-repeat="player in game.players">
-        <h2>ID: {{ player.handle }}</h2>
-      </ion-item>
-      <h2> Messages </h2>
-      <ion-item ng-repeat="message in game.messages">
-        <h2 ng-show="message.recipient != nill">Recipient: {{ message.recipient }}</h2>
-        <h2 ng-show="message.recipient != nill">Sender: {{ message.sender }}</h2>
-        <h2 ng-show="message.action[0].sentence != nill">action: {{ message.action[0].sentence }}</h2>
-        <h2 ng-show="message.phrase[0].sentence != nill">phrase: {{ message.phrase[0].sentence }}</h2>
-        <h2 ng-show="message.word != nill">word: {{ message.word }}</h2>
-      </ion-item>
+      <form name="createMessage">
+        <h2>Send to...</h2>
+        <select>
+          <option ng-repeat="player in game.players"
+              value="{{player.id}}">
+            {{player.handle}}
+          </option>
+        </select>
+        <h2>It's a...</h2>
+        <select>
+          <option value="phrase">
+            Word/Phrase
+          </option>
+          <option value="action">
+            Action
+          </option>
+        </select>
+        <h2>Whatever you want...</h2>
+        <label class="item item-input">
+          <input type="text" placeholder="Something fun!">
+        </label>
+        <div class="row min-height-50">
+          <button class="col social-button" ng-click="sendMessage()">
+              <div class="social-text">SEND</div>
+          </button>
+        </div>
+      </form>
     </ion-list>
   </ion-content>
     <div class="tabs tabs-icon-only">
