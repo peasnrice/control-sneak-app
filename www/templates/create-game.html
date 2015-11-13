@@ -1,0 +1,26 @@
+<ion-view title="Create a Game">    
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <form name="createMessage">
+      <h2>Game Name</h2>
+        <label class="item item-input">
+          <input type="text" placeholder="Your Wonderful Game Name" ng-model="game.name">
+        </label>
+      <h2>Game Motto</h2>
+        <label class="item item-input">
+          <input type="text" placeholder="A witty description maybe?" ng-model="game.motto">
+        </label>
+      <h2>Password</h2>
+      <label class="item item-input">
+        <input type="text" placeholder="Optional" ng-model="game.password">
+      </label>
+      <div class="row min-height-50">
+        <button class="col social-button" ng-click="createGame(game)">
+            <div class="social-text">CREATE GAME AND JOIN</div>
+        </button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

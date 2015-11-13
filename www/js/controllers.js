@@ -101,31 +101,48 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('GameRoomCreateController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+.controller('CreateGameController', function($scope, $http, $state, Games, $ionicSideMenuDelegate) {
+  $scope.game = {};
+
+  $scope.createGame = function() {
+    Games.create($scope.game.name, $scope.game.motto, $scope.game.password).then(function(game){
+      $state.go('menu.game-room-create', { gameId: game._id });
+    });
+  }  
+})
+
+.controller('GameRoomCreateController', function($scope, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
+  
+  $scope.message = {};
+
   Games.join($stateParams.gameId).then(function(game){
     $scope.game = game;
   });
 
-  $scope.signup = function() {
-
+  $scope.sendMessage = function() {
+    Messages.sendMessage($stateParams.gameId, $scope.message.recipient, $scope.message.format, $scope.message.sentence).then(function(messages){
+      $scope.messages = messages;
+    });
   }
-
 })
 
-.controller('GameRoomReceiveController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
-  Games.join($stateParams.gameId).then(function(game){
+.controller('GameRoomReceiveController', function($scope, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
+  Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
-  });  
+  });
+  Messages.getReceived($stateParams.gameId).then(function(messages){
+    $scope.messages = messages;
+  });
 })
 
 .controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
-  Games.join($stateParams.gameId).then(function(game){
+  Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });  
 })
 
 .controller('GameRoomScoreController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
-  Games.join($stateParams.gameId).then(function(game){
+  Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });  
 })

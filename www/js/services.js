@@ -4,6 +4,18 @@ angular.module('starter.services', [])
   var games = [];
 
   return {
+    create: function (name,motto,password) {
+      if(password == null)
+        password = "";
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/create', {'name':name,'motto':motto, 'password':password}).then(function(success){
+        if(success.data.game){
+          return success.data.game;
+        }
+        else  
+          return null;
+      });
+    },
     all: function() {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
       return $http({ url: "http://localhost:8080/games", method: "POST"}).then(function(success){
@@ -16,7 +28,6 @@ angular.module('starter.services', [])
     },
     get: function(gameId) {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-      console.log(gameId);
       return $http.post('http://localhost:8080/games', {'game-id':gameId}).then(function(success){
         if(success.data.game){
           return success.data.game;
@@ -27,11 +38,8 @@ angular.module('starter.services', [])
     },
     join: function(gameId) {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-      console.log(gameId);
       return $http.post('http://localhost:8080/games/join', {'game-id':gameId}).then(function(success){
         if(success.data.game){
-          console.log("success.data.game");
-          console.log("hurrr");
           return success.data.game;
         }
         else  
@@ -41,51 +49,56 @@ angular.module('starter.services', [])
   }
 })
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
-  },{
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'https://pbs.twimg.com/profile_images/598205061232103424/3j5HUXMY.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
-  }];
+.factory('Messages', function($http){
+  var messages = [];
 
   return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
+    get: function(gameId) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      console.log(gameId);
+      return $http.post('http://localhost:8080/games/messages', {'game-id':gameId}).then(function(success){
+        if(success.data.messages){
+          return success.data.messages;
         }
-      }
-      return null;
+        else  
+          return null;
+      });
+    },    
+    getSent: function(gameId,recipientId) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/messages/sent', {'game-id':gameId}).then(function(success){
+        if(success.data.messages){
+          return success.data.messages;
+        }
+        else  
+          return null;
+      });
+    },
+    getReceived: function(gameId,recipientId) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
+        if(success.data.messages){
+          console.log(JSON.stringify(success.data.messages));
+          return success.data.messages;
+        }
+        else  
+          return null;
+      });
+    },
+    sendMessage: function(gameId,recipientId,format,sentence) {
+      console.log(gameId);
+      console.log(recipientId);
+      console.log(format);
+      console.log(sentence);
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/createmessage', {'game-id':gameId, 'target':recipientId, 'phrase':sentence }).then(function(success){
+        if(success.data.messages){
+          return success.data.messages;
+        }
+        else  
+          return null;
+      });
     }
-  };
+  }
+
 });

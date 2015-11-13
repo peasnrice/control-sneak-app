@@ -6,14 +6,14 @@
     <ion-list>
       <form name="createMessage">
         <h2>Send to...</h2>
-        <select>
+        <select ng-model="message.recipient">
           <option ng-repeat="player in game.players"
-              value="{{player.id}}">
-            {{player.handle}}
+              value="{{player._id}}">
+            {{player.handle}} 
           </option>
         </select>
         <h2>It's a...</h2>
-        <select>
+        <select ng-model="message.format">
           <option value="phrase">
             Word/Phrase
           </option>
@@ -23,10 +23,10 @@
         </select>
         <h2>Whatever you want...</h2>
         <label class="item item-input">
-          <input type="text" placeholder="Something fun!">
+          <input type="text" placeholder="Something fun!" ng-model="message.sentence">
         </label>
         <div class="row min-height-50">
-          <button class="col social-button" ng-click="sendMessage()">
+          <button class="col social-button" ng-click="sendMessage(message)">
               <div class="social-text">SEND</div>
           </button>
         </div>

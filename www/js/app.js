@@ -66,6 +66,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         })
 
+        .state('menu.create-game', {
+            url: '/create-game',
+            views: {
+                'view-content': {
+                    templateUrl: 'templates/create-game.html',
+                    controller: 'CreateGameController'
+                }
+            }
+        })
+
         .state('menu.game-room-create', {
             url: '/game/:gameId/create',
             views: {
