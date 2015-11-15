@@ -8,8 +8,8 @@
 <!--     <ion-list> -->
       <h2>Your Messages</h2>
       <div ng-repeat="msg in messages">
-        <ion-item ng-click="openMessage('{{msg._id}}')">
-          <h2>Open - {{msg.score}}</h2>
+        <ion-item ng-show="msg.attempted == nill" ng-click="openMessage(msg._id)">
+          <h2>Open - {{msg.scores}}</h2>
         </ion-item>
       </div>
     </ion-list>
@@ -26,13 +26,13 @@
 
     <div class="row success-or-fail">
       <div class="col-50">
-        <a>
+        <a ng-click="updateAttempted(message._id,false)">
           <i class="ion-sad-outline faces"></i>
           <h2>Reject/Failed!</h2>
         </a>
       </div>
       <div class="col-50">
-        <a>
+        <a ng-click="updateAttempted(message._id,true)">
           <i class="ion-happy-outline faces"></i>
           <h2>Succeeded!</h2>
         </a>

@@ -117,7 +117,49 @@ angular.module('starter.services', [])
         else  
           return null;
       });
+    },
+    updateAttempted: function(gameId,messageId,attempted) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/messages/update', {'game-id':gameId, 'message-id':messageId, 'attempted': attempted }).then(function(success){
+        if(success.data.messages){
+          return success.data.messages;
+        }
+        else  
+          return null;
+      });
     }
+    // thumbUp: function(gameId,messageId) {
+    //   $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+    //   return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
+    //     if(success.data.messages){
+    //       return success.data.messages;
+    //     }
+    //     else  
+    //       return null;
+    //   });
+    // },
+
+    // thumbDown: function(gameId,messageId) {
+    //   $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+    //   return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
+    //     if(success.data.messages){
+    //       return success.data.messages;
+    //     }
+    //     else  
+    //       return null;
+    //   });
+    // },
+
+    // favourite: function(gameId,messageId) {
+    //   $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+    //   return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
+    //     if(success.data.messages){
+    //       return success.data.messages;
+    //     }
+    //     else  
+    //       return null;
+    //   });
+    // }
   }
 
 });

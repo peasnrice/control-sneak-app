@@ -4,21 +4,18 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
-    <ion-list>
-      <ion-item ng-repeat="message in game.messages" ng-if="messsage.succeeded == true">
-        <h2 ng-show="message.target != nill">Recipient: {{ message.recipient }}</h2>
-        <h2 ng-show="message.recipient != nill">Sender: {{ message.sender }}</h2>
-        <h2 ng-show="message.action[0].sentence != nill">action: {{ message.action[0].sentence }}</h2>
-        <h2 ng-show="message.phrase[0].sentence != nill">phrase: {{ message.phrase[0].sentence }}</h2>
-        <h2 ng-show="message.word != nill">word: {{ message.word }}</h2>
-      </ion-item>        
-      <ion-item ng-repeat="message in game.messages" ng-if="messsage.succeeded == false">>
-        <h2 ng-show="message.target != nill">Recipient: {{ message.recipient }}</h2>
-        <h2 ng-show="message.recipient != nill">Sender: {{ message.sender }}</h2>
-        <h2 ng-show="message.action[0].sentence != nill">action: {{ message.action[0].sentence }}</h2>
-        <h2 ng-show="message.phrase[0].sentence != nill">phrase: {{ message.phrase[0].sentence }}</h2>
-        <h2 ng-show="message.word != nill">word: {{ message.word }}</h2>
-      </ion-item> 
+    <ion-list ng-show="messages != null">
+      <h2>Messages Played</h2>
+      <div ng-repeat="message in messages" ng-click="voteOptions = !voteOptions" ng-class="voteOptions ? 'show-vote-options' : 'show-vote-options-disabled'">
+        <ion-item ng-show="message.attempted != nill" class="target-box">
+          <h2>{{message.phrase[0].sentence}}</h2>
+          <div ng-class="voteOptions ? 'vote-box-show' : 'vote-box-hide'">
+            <a class="circle-down"><i class="ionicons ion-thumbsdown" ng-click="thumbDown()"></i></a>
+            <a class="circle-fav"><i class="ionicons ion-star" ng-click="favourite()"></i></a>
+            <a class="circle-up"><i class="ionicons ion-thumbsup" ng-click="thumbUp()"></i></a>
+          </div>
+        </ion-item>
+      </div>
     </ion-list>
   </ion-content>
     <div class="tabs tabs-icon-only">

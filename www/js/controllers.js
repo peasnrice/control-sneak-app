@@ -140,6 +140,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('GameRoomReceiveController', function($scope, $window, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
+
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });
@@ -158,19 +159,49 @@ angular.module('starter.controllers', [])
   });
 
   $scope.openMessage = function(messageId){
-    console.log(messageId);
     Messages.openMessage($stateParams.gameId, messageId).then(function(message){
       $scope.message = message;
       $scope.messages = null;
     });
   }
 
+  $scope.updateAttempted = function(messageId, attempted){
+    console.log(messageId);
+    Messages.updateAttempted($stateParams.gameId, messageId, attempted).then(function(messages){
+      $scope.messages = messages;
+      $scope.message = null;
+    });
+  }
 })
 
-.controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+.controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
-  });  
+  }); 
+
+  Messages.get($stateParams.gameId).then(function(messages){
+    $scope.messages = messages;
+  });
+
+  $scope.thumbUp = function(messageId){
+    Messages.thumbUp($stateParams.gameId, messageId).then(function(messages){
+      $scope.messages = messages;
+    });
+
+  };
+
+  $scope.thumbDown = function(messageId){
+    Messages.thumbDown($stateParams.gameId, messageId).then(function(messages){
+      $scope.messages = messages;
+    });
+  };
+
+  $scope.favourite = function(messageId){
+    Messages.favourite($stateParams.gameId, messageId).then(function(messages){
+      $scope.messages = messages;
+    });
+  };
+
 })
 
 .controller('GameRoomScoreController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
