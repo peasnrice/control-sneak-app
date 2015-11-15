@@ -1,24 +1,24 @@
-<ion-view title="Game Room - Sneaky Board" hide-back-button="true">    
+<ion-view hide-back-button="true">   
+<ion-nav-title>{{game.name}}</ion-nav-title> 
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
     <ion-list>
-      <ion-item>
-        <h2>Name: {{ game.name }}</h2>
-      </ion-item>
-      <h2> Players </h2>
-      <ion-item ng-repeat="player in game.players">
-        <h2>ID: {{ player.handle }}</h2>
-      </ion-item>
-      <h2> Messages </h2>
-      <ion-item ng-repeat="message in game.messages">
-        <h2 ng-show="message.recipient != nill">Recipient: {{ message.recipient }}</h2>
+      <ion-item ng-repeat="message in game.messages" ng-if="messsage.succeeded == true">
+        <h2 ng-show="message.target != nill">Recipient: {{ message.recipient }}</h2>
         <h2 ng-show="message.recipient != nill">Sender: {{ message.sender }}</h2>
         <h2 ng-show="message.action[0].sentence != nill">action: {{ message.action[0].sentence }}</h2>
         <h2 ng-show="message.phrase[0].sentence != nill">phrase: {{ message.phrase[0].sentence }}</h2>
         <h2 ng-show="message.word != nill">word: {{ message.word }}</h2>
-      </ion-item>
+      </ion-item>        
+      <ion-item ng-repeat="message in game.messages" ng-if="messsage.succeeded == false">>
+        <h2 ng-show="message.target != nill">Recipient: {{ message.recipient }}</h2>
+        <h2 ng-show="message.recipient != nill">Sender: {{ message.sender }}</h2>
+        <h2 ng-show="message.action[0].sentence != nill">action: {{ message.action[0].sentence }}</h2>
+        <h2 ng-show="message.phrase[0].sentence != nill">phrase: {{ message.phrase[0].sentence }}</h2>
+        <h2 ng-show="message.word != nill">word: {{ message.word }}</h2>
+      </ion-item> 
     </ion-list>
   </ion-content>
     <div class="tabs tabs-icon-only">

@@ -1,4 +1,5 @@
-<ion-view title="Game Room - Create" hide-back-button="true">    
+<ion-view hide-back-button="true">   
+<ion-nav-title>{{game.name}}</ion-nav-title> 
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
@@ -8,8 +9,8 @@
         <h2>Send to...</h2>
         <select ng-model="message.recipient">
           <option ng-repeat="player in game.players"
-              value="{{player._id}}">
-            {{player.handle}} 
+              value="{{player.user}}">
+            {{player.handle}}
           </option>
         </select>
         <h2>It's a...</h2>
@@ -27,7 +28,7 @@
         </label>
         <div class="row min-height-50">
           <button class="col social-button" ng-click="sendMessage(message)">
-              <div class="social-text">SEND</div>
+              <div class="social-text">SEND - {{score}}</div>
           </button>
         </div>
       </form>

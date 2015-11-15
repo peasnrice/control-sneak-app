@@ -1,15 +1,45 @@
-<ion-view title="Game Room - Messages" hide-back-button="true">    
+<ion-view hide-back-button="true">   
+<ion-nav-title>{{game.name}}</ion-nav-title>  
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
-    <ion-list>
-      <h2> Messages </h2>
-      <ion-item ng-repeat="message in messages">
-        <h2 ng-show="message.opened == false">Open</h2>
-        <h2 ng-show="message.opened == true">{{ message.phrase[0].sentence }}</h2>
-      </ion-item>
+    <ion-list ng-show="messages != null">
+<!--     <ion-list> -->
+      <h2>Your Messages</h2>
+      <div ng-repeat="msg in messages">
+        <ion-item ng-click="openMessage('{{msg._id}}')">
+          <h2>Open - {{msg.score}}</h2>
+        </ion-item>
+      </div>
     </ion-list>
+
+    <div ng-show="message != null">
+    <ion-list>
+<!--     <ion-list> -->
+      <h2>Your word/phrase/action is...</h2>
+      <ion-item>
+        <p>{{message.phrase[0].sentence}}</p>
+      </ion-item>
+      <h2>This phrase is worth {{message.score}} points!</h2>
+    </ion-list>
+
+    <div class="row success-or-fail">
+      <div class="col-50">
+        <a>
+          <i class="ion-sad-outline faces"></i>
+          <h2>Reject/Failed!</h2>
+        </a>
+      </div>
+      <div class="col-50">
+        <a>
+          <i class="ion-happy-outline faces"></i>
+          <h2>Succeeded!</h2>
+        </a>
+      </div>
+    </div>
+  </div>
+
   </ion-content>
   <div class="tabs tabs-icon-only">
     <!-- Create a message -->

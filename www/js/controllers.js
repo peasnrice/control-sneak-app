@@ -111,12 +111,25 @@ angular.module('starter.controllers', [])
   }  
 })
 
-.controller('GameRoomCreateController', function($scope, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
-  
+.controller('GameRoomCreateController', function($scope, $http, $state, $stateParams, Games, Messages, Scores, $ionicSideMenuDelegate) {
+  $scope.score = 0;
   $scope.message = {};
 
   Games.join($stateParams.gameId).then(function(game){
     $scope.game = game;
+  });
+
+  $scope.$watch('message.sentence', function(newValue, oldValue) {
+    if ($scope.message.sentence != null){
+      if ($scope.message.sentence.length == 0) {
+        $scope.score = 0;
+      }
+      else if ($scope.message.sentence.length > 0) {
+        Scores.getMessageScore($scope.message.sentence).then(function(score){
+          $scope.score = score;
+        });
+      }
+    }
   });
 
   $scope.sendMessage = function() {
@@ -126,13 +139,32 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('GameRoomReceiveController', function($scope, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
+.controller('GameRoomReceiveController', function($scope, $window, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });
   Messages.getReceived($stateParams.gameId).then(function(messages){
-    $scope.messages = messages;
+    // check if message is in play
+    var message_in_play = false;
+    for(var i=0;i<messages.length;i++){
+      if(messages[i].opened == true && messages[i].attempted == null){
+        $scope.message = messages[i];
+        message_in_play = true;
+        break;
+      }
+    }
+    if(message_in_play == false)
+      $scope.messages = messages;
   });
+
+  $scope.openMessage = function(messageId){
+    console.log(messageId);
+    Messages.openMessage($stateParams.gameId, messageId).then(function(message){
+      $scope.message = message;
+      $scope.messages = null;
+    });
+  }
+
 })
 
 .controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
@@ -158,9 +190,6 @@ angular.module('starter.controllers', [])
 .controller('EmailSignUpController', function($scope, $http, $state) {
 	
 	$scope.signup = function() {
-		console.log($scope.username);
-		console.log($scope.password);
-
     $http({
       url: "http://localhost:8080/signup", 
       method: "POST",

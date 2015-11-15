@@ -86,6 +86,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         })
 
+
         .state('menu.game-room-receive', {
             url: '/game/:gameId/receive',
             views: {

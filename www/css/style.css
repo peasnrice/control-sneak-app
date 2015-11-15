@@ -29,7 +29,7 @@
 }
 
 .login-logo{
-    margin: -20px auto 35px auto;
+    margin: 0px auto 35px auto;
 }
 
 /* Button Social Sign In: */
@@ -131,6 +131,26 @@
 .player-list{
   max-height: 20px;
   overflow: hidden;
+}
+
+.success-or-fail{
+  text-align:center;
+}
+
+.success-or-fail:hover{
+  cursor: pointer;
+}
+
+.success-or-fail .faces{
+  font-size:50px;
+}
+
+.success-or-fail .ion-happy-outline{
+  color: green;
+}
+
+.success-or-fail .ion-sad-outline{
+  color: red;
 }
 
 /*.menu-nav {

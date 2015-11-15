@@ -49,13 +49,27 @@ angular.module('starter.services', [])
   }
 })
 
+.factory('Scores', function($http){
+  return{
+    getMessageScore: function(message) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/scores', {'message':message}).then(function(success){
+        if(success.data['phrase-score']){
+          return success.data['phrase-score'];
+        }
+        else  
+          return null;
+      });
+    }
+  }
+})
+
 .factory('Messages', function($http){
   var messages = [];
 
   return {
     get: function(gameId) {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-      console.log(gameId);
       return $http.post('http://localhost:8080/games/messages', {'game-id':gameId}).then(function(success){
         if(success.data.messages){
           return success.data.messages;
@@ -78,7 +92,6 @@ angular.module('starter.services', [])
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
       return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
         if(success.data.messages){
-          console.log(JSON.stringify(success.data.messages));
           return success.data.messages;
         }
         else  
@@ -86,14 +99,20 @@ angular.module('starter.services', [])
       });
     },
     sendMessage: function(gameId,recipientId,format,sentence) {
-      console.log(gameId);
-      console.log(recipientId);
-      console.log(format);
-      console.log(sentence);
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
       return $http.post('http://localhost:8080/games/createmessage', {'game-id':gameId, 'target':recipientId, 'phrase':sentence }).then(function(success){
         if(success.data.messages){
           return success.data.messages;
+        }
+        else  
+          return null;
+      });
+    },
+    openMessage: function(gameId,messageId) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/messages/update', {'game-id':gameId, 'message-id':messageId, 'opened': true }).then(function(success){
+        if(success.data.message){
+          return success.data.message;
         }
         else  
           return null;
