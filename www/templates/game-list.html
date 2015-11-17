@@ -6,6 +6,7 @@
     <button menu-toggle="right" class="button button-icon icon ion-plus" ui-sref="menu.create-game"></button>
   </ion-nav-buttons>
   <ion-content>
+    <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <ion-list>
       <ion-item ng-repeat="game in games" href="#/menu/game/{{game.id}}/create">
         <h2 ng-show="game.name != null">Name: {{ game.name }}</h2>

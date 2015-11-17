@@ -4,6 +4,7 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
+    <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <ion-list>
       <form name="createMessage">
         <h2>Send to...</h2>
@@ -24,10 +25,10 @@
         </select>
         <h2>Whatever you want...</h2>
         <label class="item item-input">
-          <input type="text" placeholder="Something fun!" ng-model="message.sentence" ng-model-options="{ debounce: 1000 }">
+          <input type="text" placeholder="Something fun!" ng-model="message.sentence" ng-model-options="{updateOn: 'default blur', debounce: {default: 1000, blur: 0} }"/>
         </label>
         <div class="row min-height-50">
-          <button class="col social-button" ng-click="sendMessage(message)">
+          <button class="col social-button" ng-click="sendMessage(message)" ng-model-options"{updateOn: 'default blur', debounce: {default: 500, blur: 0} }">
               <div class="social-text">SEND {{score}}pts</div>
           </button>
         </div>

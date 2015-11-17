@@ -95,7 +95,17 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('GameListController', function($scope, $http, $state, Games, $ionicSideMenuDelegate) {
+.controller('GameListController', function($scope, $timeout, $http, $state, Games, $ionicSideMenuDelegate) {
+  $scope.doRefresh = function() {
+    $timeout( function() {
+      Games.all().then(function(games){
+        $scope.games = games;
+      });
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };
+
   Games.all().then(function(games){
     $scope.games = games;
   });
@@ -111,7 +121,18 @@ angular.module('starter.controllers', [])
   }  
 })
 
-.controller('GameRoomCreateController', function($scope, $http, $state, $stateParams, Games, Messages, Scores, $ionicSideMenuDelegate) {
+.controller('GameRoomCreateController', function($scope, $timeout, $http, $state, $stateParams, Games, Messages, Scores, $ionicSideMenuDelegate) {
+  
+  $scope.doRefresh = function() {
+    $timeout( function() {
+      Games.get($stateParams.gameId).then(function(game){
+        $scope.game = game;
+      });
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };
+
   $scope.score = 0;
   $scope.message = {};
 
@@ -140,11 +161,35 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('GameRoomReceiveController', function($scope, $window, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
+.controller('GameRoomReceiveController', function($scope, $timeout, $window, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
+
+  $scope.doRefresh = function() {
+    $timeout( function() {
+      Games.get($stateParams.gameId).then(function(game){
+        $scope.game = game;
+      });
+      Messages.getReceived($stateParams.gameId).then(function(messages){
+        // check if message is in play
+        var message_in_play = false;
+        for(var i=0;i<messages.length;i++){
+          if(messages[i].opened == true && messages[i].attempted == null){
+            $scope.message = messages[i];
+            message_in_play = true;
+            break;
+          }
+        }
+        if(message_in_play == false)
+          $scope.messages = messages;
+      });
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };
 
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });
+
   Messages.getReceived($stateParams.gameId).then(function(messages){
     // check if message is in play
     var message_in_play = false;
@@ -175,8 +220,40 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, Messages, User, $ionicSideMenuDelegate) {
+.controller('GameRoomSneaksController', function($scope, $timeout, $http, $state, $stateParams, Games, Messages, User, $ionicSideMenuDelegate) {
   
+  $scope.doRefresh = function() {
+    $timeout( function() {
+      Games.get($stateParams.gameId).then(function(game){
+        $scope.game = game;
+      }); 
+      Messages.get($stateParams.gameId).then(function(messages){
+        $scope.messages = messages;
+        User.getId().then(function(user_id){
+          $scope.userId = user_id;
+          for(var i = 0; i < $scope.messages.length; i++){
+            for(var j = 0; j < $scope.messages[i].thumbUp.length; j++){
+              if($scope.messages[i].thumbUp[j].user == $scope.userId){
+                $scope.messages[i].thumbUpState = $scope.messages[i].thumbUp[j].response;
+              }
+            }
+            for(var j = 0; j < $scope.messages[i].thumbDown.length; j++){
+              if($scope.messages[i].thumbDown[j].user == $scope.userId){
+                $scope.messages[i].thumbDownState = $scope.messages[i].thumbDown[j].response;
+              }
+            }  
+            for(var j = 0; j < $scope.messages[i].favourite.length; j++){
+              if($scope.messages[i].favourite[j].user == $scope.userId){
+                $scope.messages[i].favouriteState = $scope.messages[i].favourite[j].response;
+              }
+            }        
+          }
+        });
+      });
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };
 
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
@@ -316,7 +393,18 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('GameRoomScoreController', function($scope, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+.controller('GameRoomScoreController', function($scope, $timeout, $http, $state, $stateParams, Games, $ionicSideMenuDelegate) {
+  
+  $scope.doRefresh = function() {
+    $timeout( function() {
+      Games.get($stateParams.gameId).then(function(game){
+        $scope.game = game;
+      });  
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };
+
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });  
@@ -326,7 +414,14 @@ angular.module('starter.controllers', [])
 })
 .controller('SettingsController', function($scope, $ionicSideMenuDelegate) {
 })
-.controller('GlobalStatsController', function($scope, $ionicSideMenuDelegate) {
+.controller('GlobalStatsController', function($scope, $timeout, $ionicSideMenuDelegate) {
+  $scope.doRefresh = function() {
+    $timeout( function() {
+      //do stuff 
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };  
 })
 
 
