@@ -120,6 +120,7 @@ angular.module('starter.controllers', [])
   });
 
   $scope.$watch('message.sentence', function(newValue, oldValue) {
+
     if ($scope.message.sentence != null){
       if ($scope.message.sentence.length == 0) {
         $scope.score = 0;
@@ -174,32 +175,143 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, Messages, $ionicSideMenuDelegate) {
+.controller('GameRoomSneaksController', function($scope, $http, $state, $stateParams, Games, Messages, User, $ionicSideMenuDelegate) {
+  
+
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   }); 
 
   Messages.get($stateParams.gameId).then(function(messages){
     $scope.messages = messages;
+    User.getId().then(function(user_id){
+      $scope.userId = user_id;
+      for(var i = 0; i < $scope.messages.length; i++){
+        for(var j = 0; j < $scope.messages[i].thumbUp.length; j++){
+          if($scope.messages[i].thumbUp[j].user == $scope.userId){
+            $scope.messages[i].thumbUpState = $scope.messages[i].thumbUp[j].response;
+          }
+        }
+        for(var j = 0; j < $scope.messages[i].thumbDown.length; j++){
+          if($scope.messages[i].thumbDown[j].user == $scope.userId){
+            $scope.messages[i].thumbDownState = $scope.messages[i].thumbDown[j].response;
+          }
+        }  
+        for(var j = 0; j < $scope.messages[i].favourite.length; j++){
+          if($scope.messages[i].favourite[j].user == $scope.userId){
+            $scope.messages[i].favouriteState = $scope.messages[i].favourite[j].response;
+          }
+        }        
+      }
+    });
   });
 
+// thumb up pressed
   $scope.thumbUp = function(messageId){
-    Messages.thumbUp($stateParams.gameId, messageId).then(function(messages){
-      $scope.messages = messages;
-    });
-
+    var thumbUpCount = 0;
+    var thumbDownCount = 0;
+    for(var i = 0; i < $scope.messages.length; i++){
+      if($scope.messages[i]._id == messageId){
+        //is it your first time?
+        if($scope.messages[i].thumbUp.length == 0){
+          var newUserResponse = {
+              user     : $scope.userId,
+              response : true            
+          }
+          $scope.messages[i].thumbUp.push(newUserResponse);
+          var newUserResponse = {
+              user     : $scope.userId,
+              response : false            
+          }
+          $scope.messages[i].thumbDown.push(newUserResponse);
+          $scope.messages[i].thumbUpState = true;
+          $scope.messages[i].thumbDownState = false;
+          Messages.thumbUp($stateParams.gameId, messageId, true).then(function(stateAndId){
+            //do something
+          });
+        }else{
+          for(var j = 0; j < $scope.messages[i].thumbUp.length; j++){
+            if($scope.messages[i].thumbUp[j].user == $scope.userId){
+              $scope.messages[i].thumbUpState = !$scope.messages[i].thumbUpState;
+              if($scope.messages[i].thumbUpState)
+                $scope.messages[i].thumbDownState = !$scope.messages[i].thumbUpState;           
+              Messages.thumbUp($stateParams.gameId, messageId, $scope.messages[i].thumbUpState).then(function(stateAndId){
+                //do something
+              });
+            }
+          }
+        }
+      }
+    }
   };
 
+// thumb down pressed
   $scope.thumbDown = function(messageId){
-    Messages.thumbDown($stateParams.gameId, messageId).then(function(messages){
-      $scope.messages = messages;
-    });
+    for(var i = 0; i < $scope.messages.length; i++){
+      if($scope.messages[i]._id == messageId){
+        //first time?
+        if($scope.messages[i].thumbDown.length == 0){
+          var newUserResponse = {
+              user     : $scope.userId,
+              response : true            
+          }
+          $scope.messages[i].thumbDown.push(newUserResponse);
+          var newUserResponse = {
+              user     : $scope.userId,
+              response : false            
+          }
+          $scope.messages[i].thumbUp.push(newUserResponse);
+          $scope.messages[i].thumbDownState = true;
+          $scope.messages[i].thumbUpState = false;
+          Messages.thumbDown($stateParams.gameId, messageId, true).then(function(stateAndId){
+            //do something
+          });
+        }else{
+          //done this before?
+          for(var j = 0; j < $scope.messages[i].thumbDown.length; j++){
+            if($scope.messages[i].thumbDown[j].user == $scope.userId){
+              $scope.messages[i].thumbDownState = !$scope.messages[i].thumbDownState;
+              if($scope.messages[i].thumbDownState)
+                $scope.messages[i].thumbUpState = !$scope.messages[i].thumbDownState;
+              Messages.thumbDown($stateParams.gameId, messageId, $scope.messages[i].thumbDownState).then(function(stateAndId){
+                //do something
+              });
+              break;
+            }
+          }
+        }
+      }
+    }
   };
 
+// favourite pressed
   $scope.favourite = function(messageId){
-    Messages.favourite($stateParams.gameId, messageId).then(function(messages){
-      $scope.messages = messages;
-    });
+    for(var i = 0; i < $scope.messages.length; i++){
+      if($scope.messages[i]._id == messageId){
+        if($scope.messages[i].favourite.length == 0){
+          var newUserResponse = {
+              user     : $scope.userId,
+              response : true            
+          }
+          $scope.messages[i].favourite.push(newUserResponse);
+          $scope.messages[i].favouriteState = true;
+          Messages.favourite($stateParams.gameId, messageId, true).then(function(stateAndId){
+            //do something
+          });
+        }else{
+          for(var j = 0; j < $scope.messages[i].favourite.length; j++){
+            if($scope.messages[i].favourite[j].user == $scope.userId){
+              $scope.messages[i].favouriteState = !$scope.messages[i].favouriteState;
+              $scope.messages[i].favouriteCount = $scope.messages[i].favourite.length;
+              Messages.favourite($stateParams.gameId, messageId, $scope.messages[i].favouriteState).then(function(stateAndId){
+                //do something
+              });
+              break;
+            }
+          }
+        }
+      }
+    }
   };
 
 })

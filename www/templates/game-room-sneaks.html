@@ -6,13 +6,23 @@
   <ion-content class="padding" scroll="true">
     <ion-list ng-show="messages != null">
       <h2>Messages Played</h2>
-      <div ng-repeat="message in messages" ng-click="voteOptions = !voteOptions" ng-class="voteOptions ? 'show-vote-options' : 'show-vote-options-disabled'">
+      <div ng-repeat="message in messages">
         <ion-item ng-show="message.attempted != nill" class="target-box">
-          <h2>{{message.phrase[0].sentence}}</h2>
-          <div ng-class="voteOptions ? 'vote-box-show' : 'vote-box-hide'">
-            <a class="circle-down"><i class="ionicons ion-thumbsdown" ng-click="thumbDown()"></i></a>
-            <a class="circle-fav"><i class="ionicons ion-star" ng-click="favourite()"></i></a>
-            <a class="circle-up"><i class="ionicons ion-thumbsup" ng-click="thumbUp()"></i></a>
+          <div class="message-info" ng-click="voteOptions = !voteOptions" ng-class="voteOptions ? 'show-vote-options' : 'show-vote-options-disabled'">
+            <h2>{{message.phrase[0].sentence}}</h2>
+          </div>
+          <div ng-class="voteOptions ? 'vote-box-show' : 'vote-box-hide'"> <!-- set fixed height, overflow hidden,  -->
+            <div class="button-container">  
+              <div class="circle-down circle-button" ng-click="thumbDown(message._id)">
+                <i class="ionicons ion-thumbsdown" ng-class="{'selected': message.thumbDownState}"></i>
+              </div>
+              <div class="circle-fav circle-button" ng-click="favourite(message._id)">
+                <i class="ionicons ion-star" ng-class="{'selected': message.favouriteState}"></i>
+              </div>
+              <div class="circle-up circle-button"  ng-click="thumbUp(message._id)">
+                <i class="ionicons ion-thumbsup" ng-class="{'selected': message.thumbUpState}"></i>
+              </div>
+            </div>
           </div>
         </ion-item>
       </div>

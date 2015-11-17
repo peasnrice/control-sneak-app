@@ -24,7 +24,7 @@
         </select>
         <h2>Whatever you want...</h2>
         <label class="item item-input">
-          <input type="text" placeholder="Something fun!" ng-model="message.sentence">
+          <input type="text" placeholder="Something fun!" ng-model="message.sentence" ng-model-options="{ debounce: 1000 }">
         </label>
         <div class="row min-height-50">
           <button class="col social-button" ng-click="sendMessage(message)">

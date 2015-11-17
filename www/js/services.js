@@ -49,6 +49,21 @@ angular.module('starter.services', [])
   }
 })
 
+.factory('User', function($http){
+  return{
+    getId: function(){
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.get('http://localhost:8080/id').then(function(success){
+        if(success.data.user_id != null){
+          return success.data.user_id;
+        }
+        else  
+          return null;
+      });
+    }
+  }
+})
+
 .factory('Scores', function($http){
   return{
     getMessageScore: function(message) {
@@ -118,6 +133,7 @@ angular.module('starter.services', [])
           return null;
       });
     },
+
     updateAttempted: function(gameId,messageId,attempted) {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
       return $http.post('http://localhost:8080/games/messages/update', {'game-id':gameId, 'message-id':messageId, 'attempted': attempted }).then(function(success){
@@ -127,39 +143,55 @@ angular.module('starter.services', [])
         else  
           return null;
       });
+    },
+
+    thumbUp: function(gameId,messageId,state) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/messages/update', {'game-id':gameId, 'message-id':messageId, 'thumb-up': state}).then(function(success){
+        if(success.data.state != null){
+          var state = success.data.state;   
+          var user_id = success.data.user_id;
+          return {
+              state: state,
+              user_id: user_id
+          }  
+        }
+        else  
+          return null;
+      });
+    },
+
+    thumbDown: function(gameId,messageId,state) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/messages/update', {'game-id':gameId,'message-id':messageId, 'thumb-down': state}).then(function(success){
+        if(success.data.state != null){
+          var state = success.data.state; 
+          var user_id = success.data.user_id; 
+          return {
+              state: state,
+              user_id: user_id
+          }  
+        }
+        else  
+          return null;
+      });
+    },
+
+    favourite: function(gameId,messageId,state) {
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/messages/update', {'game-id':gameId, 'message-id':messageId, 'favourite': state}).then(function(success){
+        if(success.data.state != null){
+          var state = success.data.state;  
+          var user_id = success.data.user_id;
+          return {
+              state: state,
+              user_id: user_id
+          }  
+        }
+        else  
+          return null;
+      });
     }
-    // thumbUp: function(gameId,messageId) {
-    //   $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-    //   return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
-    //     if(success.data.messages){
-    //       return success.data.messages;
-    //     }
-    //     else  
-    //       return null;
-    //   });
-    // },
-
-    // thumbDown: function(gameId,messageId) {
-    //   $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-    //   return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
-    //     if(success.data.messages){
-    //       return success.data.messages;
-    //     }
-    //     else  
-    //       return null;
-    //   });
-    // },
-
-    // favourite: function(gameId,messageId) {
-    //   $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-    //   return $http.post('http://localhost:8080/games/messages/received', {'game-id':gameId}).then(function(success){
-    //     if(success.data.messages){
-    //       return success.data.messages;
-    //     }
-    //     else  
-    //       return null;
-    //   });
-    // }
   }
 
 });

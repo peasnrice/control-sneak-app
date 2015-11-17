@@ -9,7 +9,7 @@
       <h2>Your Messages</h2>
       <div ng-repeat="msg in messages">
         <ion-item ng-show="msg.attempted == nill" ng-click="openMessage(msg._id)">
-          <h2>Open - {{msg.scores}}</h2>
+          <h2>Open ({{msg.score}}pts)</h2>
         </ion-item>
       </div>
     </ion-list>
