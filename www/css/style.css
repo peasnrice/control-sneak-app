@@ -222,6 +222,11 @@
   color:yellow;
 }
 
+#listttt{
+  overflow:scroll;
+  max-height:50px;
+}
+
 /*
 .vote-box-show{
   position:absolute;

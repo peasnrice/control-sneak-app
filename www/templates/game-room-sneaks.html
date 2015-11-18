@@ -16,12 +16,15 @@
             <div class="button-container">  
               <div class="circle-down circle-button" ng-click="thumbDown(message._id)">
                 <i class="ionicons ion-thumbsdown" ng-class="{'selected': message.thumbDownState}"></i>
+                {{message.thumbDownCount}}
               </div>
               <div class="circle-fav circle-button" ng-click="favourite(message._id)">
                 <i class="ionicons ion-star" ng-class="{'selected': message.favouriteState}"></i>
+                {{message.favouriteCount}}
               </div>
               <div class="circle-up circle-button"  ng-click="thumbUp(message._id)">
                 <i class="ionicons ion-thumbsup" ng-class="{'selected': message.thumbUpState}"></i>
+                {{message.thumbUpCount}}
               </div>
             </div>
           </div>

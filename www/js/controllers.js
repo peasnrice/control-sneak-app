@@ -285,12 +285,34 @@ angular.module('starter.controllers', [])
 
 // thumb up pressed
   $scope.thumbUp = function(messageId){
-    var thumbUpCount = 0;
-    var thumbDownCount = 0;
     for(var i = 0; i < $scope.messages.length; i++){
       if($scope.messages[i]._id == messageId){
         //is it your first time?
-        if($scope.messages[i].thumbUp.length == 0){
+
+        var created = false;
+
+        for(var j = 0; j < $scope.messages[i].thumbUp.length; j++){
+          if($scope.messages[i].thumbUp[j].user == $scope.userId){
+            if(!$scope.messages[i].thumbUpState){  //what was button resting position? if off and turning on...
+              $scope.messages[i].thumbUpCount += 1;  //increment up counter
+              if($scope.messages[i].thumbDownState){ //is the thumb down pressed? 
+                $scope.messages[i].thumbDownState = !$scope.messages[i].thumbDownState; //flip down state
+                $scope.messages[i].thumbDownCount -= 1;  //decrement down counter
+              }
+            }
+            else{
+              $scope.messages[i].thumbUpCount -= 1;  //decrement up counter
+            }
+            $scope.messages[i].thumbUpState = !$scope.messages[i].thumbUpState; //flip state of up button
+            Messages.thumbUp($stateParams.gameId, messageId, $scope.messages[i].thumbUpState).then(function(stateAndId){
+              //do something
+            });
+            created = true;
+            break;
+          }
+        }
+        
+        if(created == false){
           var newUserResponse = {
               user     : $scope.userId,
               response : true            
@@ -303,20 +325,10 @@ angular.module('starter.controllers', [])
           $scope.messages[i].thumbDown.push(newUserResponse);
           $scope.messages[i].thumbUpState = true;
           $scope.messages[i].thumbDownState = false;
+          $scope.messages[i].thumbUpCount += 1;
           Messages.thumbUp($stateParams.gameId, messageId, true).then(function(stateAndId){
             //do something
           });
-        }else{
-          for(var j = 0; j < $scope.messages[i].thumbUp.length; j++){
-            if($scope.messages[i].thumbUp[j].user == $scope.userId){
-              $scope.messages[i].thumbUpState = !$scope.messages[i].thumbUpState;
-              if($scope.messages[i].thumbUpState)
-                $scope.messages[i].thumbDownState = !$scope.messages[i].thumbUpState;           
-              Messages.thumbUp($stateParams.gameId, messageId, $scope.messages[i].thumbUpState).then(function(stateAndId){
-                //do something
-              });
-            }
-          }
         }
       }
     }
@@ -326,8 +338,30 @@ angular.module('starter.controllers', [])
   $scope.thumbDown = function(messageId){
     for(var i = 0; i < $scope.messages.length; i++){
       if($scope.messages[i]._id == messageId){
-        //first time?
-        if($scope.messages[i].thumbDown.length == 0){
+
+        var created = false;
+
+        for(var j = 0; j < $scope.messages[i].thumbDown.length; j++){
+          if($scope.messages[i].thumbDown[j].user == $scope.userId){
+            if(!$scope.messages[i].thumbDownState){  //what was button resting position? if off and turning on...
+              $scope.messages[i].thumbDownCount += 1;  //increment up counter
+              if($scope.messages[i].thumbUpState){ //is the thumb down pressed? 
+                $scope.messages[i].thumbUpState = !$scope.messages[i].thumbUpState; //flip down state
+                $scope.messages[i].thumbUpCount -= 1;  //decrement down counter
+              }
+            }
+            else{
+              $scope.messages[i].thumbDownCount -= 1;  //decrement up counter
+            }
+            $scope.messages[i].thumbDownState = !$scope.messages[i].thumbDownState; //flip state of up button
+            Messages.thumbDown($stateParams.gameId, messageId, $scope.messages[i].thumbDownState).then(function(stateAndId){
+              //do something
+            });
+            created= true;
+            break;
+          }
+        }
+        if (created == false){
           var newUserResponse = {
               user     : $scope.userId,
               response : true            
@@ -340,22 +374,10 @@ angular.module('starter.controllers', [])
           $scope.messages[i].thumbUp.push(newUserResponse);
           $scope.messages[i].thumbDownState = true;
           $scope.messages[i].thumbUpState = false;
+          $scope.messages[i].thumbDownCount += 1;
           Messages.thumbDown($stateParams.gameId, messageId, true).then(function(stateAndId){
             //do something
           });
-        }else{
-          //done this before?
-          for(var j = 0; j < $scope.messages[i].thumbDown.length; j++){
-            if($scope.messages[i].thumbDown[j].user == $scope.userId){
-              $scope.messages[i].thumbDownState = !$scope.messages[i].thumbDownState;
-              if($scope.messages[i].thumbDownState)
-                $scope.messages[i].thumbUpState = !$scope.messages[i].thumbDownState;
-              Messages.thumbDown($stateParams.gameId, messageId, $scope.messages[i].thumbDownState).then(function(stateAndId){
-                //do something
-              });
-              break;
-            }
-          }
         }
       }
     }
@@ -365,27 +387,34 @@ angular.module('starter.controllers', [])
   $scope.favourite = function(messageId){
     for(var i = 0; i < $scope.messages.length; i++){
       if($scope.messages[i]._id == messageId){
-        if($scope.messages[i].favourite.length == 0){
+
+        var created = false;
+
+        for(var j = 0; j < $scope.messages[i].favourite.length; j++){
+          if($scope.messages[i].favourite[j].user == $scope.userId){
+            if(!$scope.messages[i].favouriteState)
+              $scope.messages[i].favouriteCount += 1;
+            else
+              $scope.messages[i].favouriteCount -= 1;
+            $scope.messages[i].favouriteState = !$scope.messages[i].favouriteState;
+            Messages.favourite($stateParams.gameId, messageId, $scope.messages[i].favouriteState).then(function(stateAndId){
+              //do something
+            });
+            created = true;
+            break;
+          }
+        }
+        if(created == false){
           var newUserResponse = {
               user     : $scope.userId,
               response : true            
           }
           $scope.messages[i].favourite.push(newUserResponse);
           $scope.messages[i].favouriteState = true;
+          $scope.messages[i].favouriteCount += 1;
           Messages.favourite($stateParams.gameId, messageId, true).then(function(stateAndId){
             //do something
           });
-        }else{
-          for(var j = 0; j < $scope.messages[i].favourite.length; j++){
-            if($scope.messages[i].favourite[j].user == $scope.userId){
-              $scope.messages[i].favouriteState = !$scope.messages[i].favouriteState;
-              $scope.messages[i].favouriteCount = $scope.messages[i].favourite.length;
-              Messages.favourite($stateParams.gameId, messageId, $scope.messages[i].favouriteState).then(function(stateAndId){
-                //do something
-              });
-              break;
-            }
-          }
         }
       }
     }
