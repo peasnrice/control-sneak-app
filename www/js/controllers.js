@@ -95,7 +95,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('GameListController', function($scope, $timeout, $http, $state, Games, $ionicSideMenuDelegate) {
+.controller('GameListController', function($scope, $timeout, $http, $state, $ionicModal, Games, $ionicSideMenuDelegate) {
   $scope.doRefresh = function() {
     $timeout( function() {
       Games.all().then(function(games){
@@ -105,6 +105,33 @@ angular.module('starter.controllers', [])
       $scope.$broadcast('scroll.refreshComplete');
     }, 1000);
   };
+
+  $ionicModal.fromTemplateUrl('templates/join-game-modal-content.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+      $scope.modal = modal;
+  });
+
+    // Open modal
+  $scope.loadGameHideModal = function(game) {
+      $scope.closeModal();
+      $state.go('menu.game-room-create', { gameId: game.id });
+  };
+
+  // Open modal
+  $scope.openGame = function(index) {
+      $scope.game = $scope.games[index];
+      $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
 
   Games.all().then(function(games){
     $scope.games = games;

@@ -8,11 +8,8 @@
   <ion-content>
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <ion-list>
-      <ion-item ng-repeat="game in games" href="#/menu/game/{{game.id}}/create">
+      <ion-item ng-repeat="game in games" ng-click="openGame($index)">
         <h2 ng-show="game.name != null">Name: {{ game.name }}</h2>
-        <h2 ng-show="game.motto != null">Motto: {{ game.motto }}</h2>
-        <h2 ng-show="game.players != null">Players: {{ game.players }}</h2>
-        <h2 ng-show="game.has_password != null">Password: {{ game.has_password }}</h2>
       </ion-item>
     </ion-list>
   </ion-content>
