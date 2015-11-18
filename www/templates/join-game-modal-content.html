@@ -1,0 +1,17 @@
+<ion-modal-view>
+<ion-header-bar>
+  <h1 class="title">{{ game.name }}</h1>
+    </ion-header-bar>
+    <ion-content>
+        <p ng-show="game.motto != null">Motto: {{ game.motto }}</p>
+        <p ng-show="game.players != null">Players: {{ game.players }}</p>
+        <p ng-show="game.has_password != null">Password: {{ game.has_password }}</p>
+        
+	    <button class="col social-button" ng-click="loadGameHideModal(game)">
+	        <div class="social-text">Join Game</div>
+	    </button>
+	    <button class="col social-button" ng-click="closeModal()">
+	        <div class="social-text">Close Modal</div>
+	    </button>
+</ion-content>
+</ion-modal-view>
