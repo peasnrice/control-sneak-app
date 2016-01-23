@@ -4,11 +4,11 @@ angular.module('starter.services', [])
   var games = [];
 
   return {
-    create: function (name,motto,password) {
+    create: function (name,motto,password,playerHandle) {
       if(password == null)
         password = "";
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-      return $http.post('http://localhost:8080/games/create', {'name':name,'motto':motto, 'password':password}).then(function(success){
+      return $http.post('http://localhost:8080/games/create', {'name':name,'motto':motto, 'password':password, 'player-handle': playerHandle}).then(function(success){
         if(success.data.game){
           return success.data.game;
         }
@@ -36,9 +36,19 @@ angular.module('starter.services', [])
           return null;
       });
     },
-    join: function(gameId) {
+    join: function(gameId,playerHandle,password) {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
-      return $http.post('http://localhost:8080/games/join', {'game-id':gameId}).then(function(success){
+      return $http.post('http://localhost:8080/games/join', {'game-id':gameId, 'player-handle' : playerHandle, password : password}).then(function(success){
+        if(success.data.game){
+          return success.data.game;
+        }
+        else  
+          return null;
+      });
+    },
+    rejoin: function(gameId){
+      $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+      return $http.post('http://localhost:8080/games/rejoin', {'game-id':gameId}).then(function(success){
         if(success.data.game){
           return success.data.game;
         }

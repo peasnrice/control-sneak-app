@@ -1,20 +1,48 @@
-<ion-view name="emailsignup" hide-nav-bar="false" view-title="Sign Up" class="background-flesh">
-	<ion-content class="padding" scroll="true">
-		<div class="row">
-			<img src="./img/logo.png" class="login-logo">
-		</div>
-		<form ng-submit="signup()" ng-controller="EmailSignUpController">
-			<label class="item item-input">
-				<input type="text" placeholder="Username" ng-model="username" name="username">
-			</label>
-			<label class="item item-input">
-				<input type="password" placeholder="Password" ng-model="password" name="password">
-			</label>
-			<div class="row min-height-50">
-				<button class="col orange-button" id="signup" value="SignUp" type="signup">
-					<div class="orange-button-text">SIGN UP & LOG IN</div>
-				</button>
-			</div>
-		</form>
-	</ion-content>
+<ion-view hide-back-button="true">
+  <!-- Add ion-content to remove the hamburger menu on login screens-->
+  <ion-content>
+    <ion-nav-buttons side="left">
+      <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+
+    <div id="home">
+
+        <div class="header">
+            <div class="intro row">Login or Signup to</div>
+            <div class="title row">Control Sneak</div>
+        </div>
+
+        <form name="loginForm" ng-submit="login()" ng-controller="EmailLoginController" novalidate>
+
+        <div class="form-field email-field bordered" >
+            <img class="mail-icon" src="./img/icon-mail-active.png" class="mail-icon">
+            <label class="item item-input">
+                <input type="text" placeholder="Username" ng-model="username" name="username" ng-minlength="2" required>
+            </label>
+            <div class="after-field">
+            </div>
+        </div>  
+        <div class="form-field password-field bordered">
+            <img class="password-icon" src="./img/icon-password-active.png" class="password-icon">
+            <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="password" name="password" ng-minlength="4" required>
+            </label>  
+            <div class="after-field">
+            </div>          
+        </div>  
+        <div class="form-field action-button">
+            <button class="submit-button" id="submit" value="Submit" type="submit" ng-disabled="loginForm.$invalid">
+            <div class="submit-button-text">Log in</div>
+            </button>
+        </div>
+
+    </form>
+    <div class="form-field action-button">
+        <button class="submit-button inactive"
+            <div class="submit-button-text">Create Account</div>
+        </button>
+    </div>
+
+    </div>
+  </ion-content>
 </ion-view>

@@ -25,10 +25,12 @@
         </select>
         <h2>Whatever you want...</h2>
         <label class="item item-input">
-          <input type="text" placeholder="Something fun!" ng-model="message.sentence" ng-model-options="{updateOn: 'default blur', debounce: {default: 1000, blur: 0} }"/>
+          <input name="content" type="text" placeholder="Something fun!" ng-model="message.sentence" 
+          ng-model-options="{debounce: 1000}"/>
         </label>
         <div class="row min-height-50">
-          <button class="col social-button" ng-click="sendMessage(message)" ng-model-options"{updateOn: 'default blur', debounce: {default: 500, blur: 0} }">
+        <!-- FIX THIS createmessage.null??? -->
+          <button class="col social-button" ng-click="createMessage.null.$rollbackViewValue();">
               <div class="social-text">SEND {{score}}pts</div>
           </button>
         </div>

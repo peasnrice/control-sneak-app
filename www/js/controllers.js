@@ -113,16 +113,27 @@ angular.module('starter.controllers', [])
       $scope.modal = modal;
   });
 
-    // Open modal
-  $scope.loadGameHideModal = function(game) {
+    // Called when joining the game as a new user
+  $scope.loadGameHideModal = function(game, handle, password) {
       $scope.closeModal();
-      $state.go('menu.game-room-create', { gameId: game.id });
+      game.enteredHandle = handle;
+      game.enteredPassword = password;
+
+      Games.join(game.id, handle, password).then(function(game){
+        $state.go('menu.game-room-create', { gameId: game._id});
+      });
   };
 
-  // Open modal
-  $scope.openGame = function(index) {
+  // checks to see if already in the game, if you are then it sends you to the game screen
+  //otherwise you are sent to the modal screen.
+  $scope.loadGame = function(index) {
       $scope.game = $scope.games[index];
-      $scope.modal.show();
+      Games.rejoin($scope.game.id).then(function(game){
+        if(game)
+          $state.go('menu.game-room-create', { gameId: game._id });
+        else
+          $scope.modal.show();
+      });
   };
 
   $scope.closeModal = function() {
@@ -140,9 +151,10 @@ angular.module('starter.controllers', [])
 
 .controller('CreateGameController', function($scope, $http, $state, Games, $ionicSideMenuDelegate) {
   $scope.game = {};
+  $scope.player = {};
 
   $scope.createGame = function() {
-    Games.create($scope.game.name, $scope.game.motto, $scope.game.password).then(function(game){
+    Games.create($scope.game.name, $scope.game.motto, $scope.game.password, $scope.player.handle).then(function(game){
       $state.go('menu.game-room-create', { gameId: game._id });
     });
   }  
@@ -163,7 +175,7 @@ angular.module('starter.controllers', [])
   $scope.score = 0;
   $scope.message = {};
 
-  Games.join($stateParams.gameId).then(function(game){
+  Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
   });
 
@@ -484,16 +496,25 @@ angular.module('starter.controllers', [])
 .controller('EmailSignUpController', function($scope, $http, $state) {
 	
 	$scope.signup = function() {
-    $http({
-      url: "http://localhost:8080/signup", 
-      method: "POST",
-      params: {email: $scope.username, password: $scope.password}
-    }).then(function(success) {
-      console.log(success);
-    }, function(err) {
-      console.log(err);
-    });
-	};
+
+    if($scope.password == $scope.verifyPassword){
+      console.log("ok dude you got it");
+      $http({
+        url: "http://localhost:8080/signup", 
+        method: "POST",
+        params: {email: $scope.username, password: $scope.password}
+      }).then(function(success) {
+        window.localStorage['x-access-token'] = success.data.token;
+        $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
+        $state.go('menu.game-list');
+      }, function(err) {
+        console.log(err);
+      });
+    }
+    else{
+      console.log("this aint good and you know it");
+    }
+  };
    
 });
 

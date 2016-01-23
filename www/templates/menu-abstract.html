@@ -6,18 +6,20 @@
     <ion-nav-view name="view-content" animation="slide-left-right"></ion-nav-view>
 
   </ion-side-menu-content>
-  <ion-side-menu side="left" ng-controller="MenuController">
+  <ion-side-menu id="side-nav" side="left" ng-controller="MenuController">
 
     <ion-header-bar class="bar bar-header bar-assertive">
       <h1 class="title">Menu</h1>
     </ion-header-bar>
     <ion-content has-header="true">
       <ul class="list">
-        <a ui-sref="menu.profile" nav-clear class="item" ng-click="toggleLeft()">Profile</a>
-        <a ui-sref="menu.game-list" nav-clear class="item" ng-click="toggleLeft()">Game List</a>
-        <a ui-sref="menu.global-stats" nav-clear class="item" ng-click="toggleLeft()">Global Stats</a>
-        <a ui-sref="menu.settings" nav-clear class="item" ng-click="toggleLeft()">Settings</a>
-        <a ui-sref="menu.home" nav-clear class="item" ng-click="toggleLeft()">Logout</a>
+        <a ui-sref="menu.game-list" nav-clear class="ion-close-round side-nav-item close-menu" ng-click="toggleLeft()"></a>
+      
+<!--         <a ui-sref="menu.profile" nav-clear class="item" ng-click="toggleLeft()">Profile</a> -->
+        <a ui-sref="menu.game-list" nav-clear class="button button-clear button-light side-nav-item menu-item" ng-click="toggleLeft()">Game List</a>
+<!--         <a ui-sref="menu.global-stats" nav-clear class="item" ng-click="toggleLeft()">Global Stats</a> -->
+<!--         <a ui-sref="menu.settings" nav-clear class="item" ng-click="toggleLeft()">Settings</a> -->
+        <a ui-sref="menu.home" nav-clear class="button button-clear button-light side-nav-item menu-item" ng-click="toggleLeft()">Logout</a>
       </ul>
     </ion-content>
 

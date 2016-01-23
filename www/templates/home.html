@@ -5,32 +5,87 @@
       <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
 
-    <div class="row">
-        <img class="login-logo" src="./img/logo.png" class="login-logo">
-    </div>
-    <div class="row min-height-50">
-        <button class="col social-button" ng-click="facebookLogin()">
-          <i class="ion-social-facebook"></i>
-          <div class="social-text">FACEBOOK</div>
-        </button>
-    </div>
-    <div class="row min-height-50">
-        <button class="col social-button" ng-click="googleLogin()">
-            <i class="ion-social-google"></i>
-            <div class="social-text">GOOGLE</div>
-        </button>
-    </div>
-    <div class="row min-height-50">
-        <button class="col social-button">
-            <i class="ion-social-github"></i>
-            <div class="social-text">GITHUB</div>
-        </button>
-    </div>      
-    <div id="email" class="row min-height-50">
-        <button class="col social-button" ng-click="GoToEmailLogin()">
-            <i class="ion-email"></i>
-            <div class="social-text">EMAIL LOGIN</div>
-        </button>
+    <div id="home">
+        <div class="login">
+            <div class="header">
+                <div class="intro row">Login or Signup to</div>
+                <div class="title row">Control Sneak</div>
+            </div>
+
+            <div class="login-form" ng-show="!loginOrSignup">
+                <form name="loginForm" ng-submit="login()" ng-controller="EmailLoginController" novalidate>
+
+                <div class="form-field email-field bordered" >
+                    <img class="mail-icon" src="./img/icon-mail-active.png" class="mail-icon">
+                    <label class="item item-input">
+                        <input type="email" placeholder="Username" ng-model="username" name="username" ng-minlength="2" required>
+                    </label>
+                    <div class="after-field">
+                    </div>
+                </div>  
+                <div class="form-field password-field bordered">
+                    <img class="password-icon" src="./img/icon-password-active.png" class="password-icon">
+                    <label class="item item-input">
+                      <input type="password" placeholder="Password" ng-model="password" name="password" ng-minlength="4" required>
+                    </label>  
+                    <div class="after-field">
+                    </div>          
+                </div>  
+                <div class="empty-field">
+                </div>
+                <div class="form-field action-button">
+                    <button class="submit-button" id="submit" value="Submit" type="submit" ng-disabled="loginForm.$invalid">
+                    <div class="submit-button-text">Login</div>
+                    </button>
+                </div>
+
+                </form>
+            </div>
+
+            <div class="signup-form" ng-show="loginOrSignup">
+                <form name="signupForm" ng-submit="signup()" ng-controller="EmailSignUpController" novalidate>
+
+                <div class="form-field email-field bordered" >
+                    <img class="mail-icon" src="./img/icon-mail-active.png" class="mail-icon">
+                    <label class="item item-input">
+                        <input type="email" placeholder="Username" ng-model="username" name="username" ng-minlength="2" required>
+                    </label>
+                    <div class="after-field">
+                    </div>
+                </div>  
+                <div class="form-field password-field bordered">
+                    <img class="password-icon" src="./img/icon-password-active.png" class="password-icon">
+                    <label class="item item-input">
+                      <input type="password" placeholder="Password" ng-model="password" name="password" ng-minlength="4" required>
+                    </label>  
+                <div class="after-field"></div>       
+                </div> 
+                <div class="form-field verify-password-field bordered">
+                    <img class="password-icon" src="./img/icon-password-active.png" class="password-icon">
+                    <label class="item item-input">
+                      <input type="password" placeholder="Confirm password" ng-model="verifyPassword" name="verifyPassword" ng-minlength="4" required>
+                    </label>  
+                <div class="after-field"></div>       
+                </div> 
+                <div class="form-field action-button">
+                    <button class="submit-button" id="submit" value="Submit" type="submit" ng-disabled="loginForm.$invalid">
+                    <div class="submit-button-text">Sign Up</div>
+                    </button>
+                </div> 
+
+                </form>
+            </div>
+
+        <div class="otherwise">Otherwise...</div>
+
+
+            <div class="form-field action-button">
+                <button class="submit-button inactive" ng-click="loginOrSignup = !loginOrSignup">
+                    <div class="submit-button-text" ng-show="!loginOrSignup">Create an Account</div>
+                    <div class="submit-button-text" ng-show="loginOrSignup">Back to Login</div>
+                </button>
+            </div>
+        </div>
     </div>
   </ion-content>
 </ion-view>

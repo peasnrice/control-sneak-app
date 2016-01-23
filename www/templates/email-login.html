@@ -1,17 +1,27 @@
 <ion-view title="Email Login">
   <ion-content>
+
     <div class="row">
         <img class="login-logo" src="./img/logo.png" class="login-logo">
     </div>
-  <form ng-submit="login()" ng-controller="EmailLoginController">
+  <form name="loginForm" ng-submit="login()" ng-controller="EmailLoginController" novalidate>
 	<label class="item item-input">
-	  <input type="text" placeholder="Username" ng-model="username" name="username">
+	  <input type="text" placeholder="Username" ng-model="username" name="username" ng-minlength="2" required>
 	</label>
 	<label class="item item-input">
-	  <input type="password" placeholder="Password" ng-model="password" name="password">
+	  <input type="password" placeholder="Password" ng-model="password" name="password" ng-minlength="4" required>
 	</label>
+
+  <div class="form-errors">
+    <p ng-show="loginForm.username.$error.required">* Username is required</p>
+    <p ng-show="loginForm.username.$invalid && !myForm.username.$pristine">* Username must be an email address</p>
+    <p ng-show="loginForm.username.$error.minlength">* Username must be longer than 5 characters</p>
+    <p ng-show="loginForm.password.$error.required">* Password is required</p>
+    <p ng-show="loginForm.password.$error.minlength">* Password must be longer than 4 characters</p>
+  </div>
+
 	<div class="row min-height-50">
-	<button class="col orange-button" id="submit" value="Submit" type="submit">
+	<button class="col orange-button" id="submit" value="Submit" type="submit" ng-disabled="loginForm.$invalid">
 	  <div class="orange-button-text">LOGIN</div>
 	</button>
 	</div>

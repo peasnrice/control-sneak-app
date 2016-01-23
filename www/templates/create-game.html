@@ -14,7 +14,11 @@
         </label>
       <h2>Password</h2>
       <label class="item item-input">
-        <input type="text" placeholder="Optional" ng-model="game.password">
+        <input type="password" placeholder="Optional" ng-model="game.password">
+      </label>
+      <h2>Your Name for This Game</h2>
+      <label class="item item-input">
+        <input type="text" placeholder="Money Bags" ng-model="player.handle">
       </label>
       <div class="row min-height-50">
         <button class="col social-button" ng-click="createGame(game)">
