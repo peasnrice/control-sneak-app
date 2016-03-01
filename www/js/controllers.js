@@ -83,6 +83,7 @@ angular.module('starter.controllers', [])
   };
   
   $scope.login = function() {
+    console.log("ok logging in");
     $http.post("http://localhost:8080/login", {email: $scope.username, password : $scope.password}).then(function(success) {
       // save the app token locally on the device and save it to the header of all future requests.
       window.localStorage['x-access-token'] = success.data.token;

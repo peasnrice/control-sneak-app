@@ -5,8 +5,8 @@
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
-    <ion-list ng-show="messages != null">
-      <h2>Messages Played</h2>
+    <h1 class="page-title">Messages</h1>
+    <ion-list ng-show="messages != null" class="game-content">
       <div ng-repeat="message in messages">
         <ion-item ng-show="message.attempted != nill" class="target-box">
           <div class="message-info" ng-click="voteOptions = !voteOptions" ng-class="voteOptions ? 'show-vote-options' : 'show-vote-options-disabled'">

@@ -5,9 +5,9 @@
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
-    <ion-list ng-show="messages != null">
+    <h1 class="page-title">Inbox</h1>
+    <ion-list ng-show="messages != null" class="game-content">
 <!--     <ion-list> -->
-      <h2>Your Messages</h2>
       <div ng-repeat="msg in messages">
         <ion-item ng-show="msg.attempted == nill" ng-click="openMessage(msg._id)">
           <h2>Open ({{msg.score}}pts)</h2>
@@ -16,7 +16,7 @@
     </ion-list>
 
     <div ng-show="message != null">
-    <ion-list>
+    <ion-list class="game-content">
 <!--     <ion-list> -->
       <h2>Your word/phrase/action is...</h2>
       <ion-item>

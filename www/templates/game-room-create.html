@@ -5,7 +5,8 @@
   </ion-nav-buttons>
   <ion-content class="padding" scroll="true">
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
-    <ion-list>
+    <h1 class="page-title">Create Phrase</h1>
+    <ion-list class="game-content">
       <form name="createMessage">
         <h2>Send to...</h2>
         <select ng-model="message.recipient">
@@ -14,24 +15,15 @@
             {{player.handle}}
           </option>
         </select>
-        <h2>It's a...</h2>
-        <select ng-model="message.format">
-          <option value="phrase">
-            Word/Phrase
-          </option>
-          <option value="action">
-            Action
-          </option>
-        </select>
-        <h2>Whatever you want...</h2>
+        <h2>Create a phrase, be creative...</h2>
         <label class="item item-input">
           <input name="content" type="text" placeholder="Something fun!" ng-model="message.sentence" 
           ng-model-options="{debounce: 1000}"/>
         </label>
-        <div class="row min-height-50">
+        <div class="form-field action-button">
         <!-- FIX THIS createmessage.null??? -->
-          <button class="col social-button" ng-click="createMessage.null.$rollbackViewValue();">
-              <div class="social-text">SEND {{score}}pts</div>
+          <button class="submit-button" ng-click="sendMessage()">
+              <div class="submit-button-text">SEND {{score}}pts</div>
           </button>
         </div>
       </form>

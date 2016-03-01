@@ -214,6 +214,7 @@ ion-content.scroll-content.ionic-scroll.has-header{
 
 #game-list{
   padding: 0;
+
 }
 
 #game-list .game-tile{
@@ -460,8 +461,6 @@ button.back-button.buttons.button-clear.header-item{
 #side-nav{
   background-color:#682B80;
   border-right:solid 2px white;
-  border-top:solid 2px white;
-  top:20px;
 }
 
 #side-nav .list{
@@ -490,10 +489,89 @@ button.back-button.buttons.button-clear.header-item{
 /*  border: solid 2px white;*/
   display:block;
   width:100%;
-  padding: 14px 0 0 16px;
+  padding: 15px 0 0 18px;
   margin: 5px 0 0 17px;
 }
 
 ion-content.scroll-content.ionic-scroll.has-header{
   top:20px !important;
+}
+
+
+#create-game{
+  display:block;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+  padding-top:12px;
+  position: absolute;
+}
+#create-game title{
+  display:block;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+  padding-top:12px;
+  position: absolute;
+}
+
+#create-game .photo-upload{
+    display: block;
+    text-align: center;
+    padding: 43px;
+}
+
+#create-game .photo-upload .icon{
+  font-size:22px;
+  color: white;
+}
+
+
+#create-game .photo-upload h3{
+  color:white;
+  font-size:18px;
+}
+
+#create-game .form-wrapper{
+  background-color:white;
+  padding-left:12px;  
+}
+
+#create-game .form-wrapper .item-input{
+  padding: 0;
+  margin:0; 
+}
+
+#create-game .game-description,
+#create-game .game-password{
+  opacity:0.5;
+}
+
+#create-game-top{
+  width:100%;
+  background:none;
+}
+
+#create-game-top{
+  width:100%;
+  background:none;
+  text-align:center;
+}
+
+#create-game-top title{
+  font-size:32px;
+  display: block;
+}
+
+.page-title {
+  float: right;
+  width: 80%;
+  text-align: right;
+  font-size:32px;
+  margin-top:6px;
+}
+
+.game-content{
+  float:left;
+  width:100%;
 }
