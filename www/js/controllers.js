@@ -7,7 +7,7 @@ angular.module('starter.controllers', [])
 })
 .controller('Controller', function($scope, $ionicSideMenuDelegate) {
 })
-.controller('HomeController', function($scope, $http, $state, $cordovaFacebook, $cordovaOauth, $ionicSideMenuDelegate) {
+.controller('HomeController', function($scope, $http, $state, $cordovaFacebook, $cordovaOauth, $ionicSideMenuDelegate, $cordovaDialogs) {
     
   
   $scope.GoToEmailLogin = function() {
@@ -61,11 +61,12 @@ angular.module('starter.controllers', [])
           $state.go('signin');
         }, function(err) {
           console.error('ERR', err);
+          $cordovaDialogs.alert(err.data.error, 'Whoops', 'OK');
           $state.go('signin');
     });
   }; 
 })
-.controller('EmailLoginController', function($scope, $http, $state, $ionicSideMenuDelegate) {
+.controller('EmailLoginController', function($scope, $http, $state, $ionicSideMenuDelegate, $cordovaDialogs) {
   var tabs = document.querySelectorAll('div.tabs')[0];
   tabs = angular.element(tabs);
   tabs.css('display','none');
@@ -91,7 +92,7 @@ angular.module('starter.controllers', [])
       // go to game list screen
       $state.go('menu.game-list');
     }, function(err) {
-      console.log(err);
+      $cordovaDialogs.alert(err.data.error, 'Whoops', 'OK');
     });
   };
 })
@@ -161,7 +162,7 @@ angular.module('starter.controllers', [])
   }  
 })
 
-.controller('GameRoomCreateController', function($scope, $timeout, $http, $state, $stateParams, Games, Messages, Scores, $ionicSideMenuDelegate) {
+.controller('GameRoomCreateController', function($scope, $timeout, $http, $state, $stateParams, Games, Messages, Scores, $ionicSideMenuDelegate, $cordovaDialogs, $ionicPopup) {
   
   $scope.doRefresh = function() {
     $timeout( function() {
@@ -175,6 +176,7 @@ angular.module('starter.controllers', [])
 
   $scope.score = 0;
   $scope.message = {};
+  $scope.form = {};
 
   Games.get($stateParams.gameId).then(function(game){
     $scope.game = game;
@@ -197,6 +199,9 @@ angular.module('starter.controllers', [])
   $scope.sendMessage = function() {
     Messages.sendMessage($stateParams.gameId, $scope.message.recipient, $scope.message.format, $scope.message.sentence).then(function(messages){
       $scope.messages = messages;
+      $scope.score = 0;
+      $scope.message = {};
+      $scope.form.createMessage.$setPristine();
     });
   }
 })
@@ -494,7 +499,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('EmailSignUpController', function($scope, $http, $state) {
+.controller('EmailSignUpController', function($scope, $http, $state, $cordovaDialogs) {
 	
 	$scope.signup = function() {
 
@@ -509,11 +514,11 @@ angular.module('starter.controllers', [])
         $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
         $state.go('menu.game-list');
       }, function(err) {
-        console.log(err);
+        $cordovaDialogs.alert(err, 'Error', 'OK');
       });
     }
     else{
-      console.log("this aint good and you know it");
+      $cordovaDialogs.alert('The two passwords to not match, please ensure both passwords are the same and try again.', 'Password Mismatch', 'Retry');
     }
   };
    

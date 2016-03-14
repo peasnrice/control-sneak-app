@@ -89,7 +89,7 @@ angular.module('starter.services', [])
   }
 })
 
-.factory('Messages', function($http){
+.factory('Messages', function($http, $cordovaDialogs){
   var messages = [];
 
   return {
@@ -126,11 +126,24 @@ angular.module('starter.services', [])
     sendMessage: function(gameId,recipientId,format,sentence) {
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
       return $http.post('http://localhost:8080/games/createmessage', {'game-id':gameId, 'target':recipientId, 'phrase':sentence }).then(function(success){
-        if(success.data.messages){
+        if(success.status == 200){
+          $cordovaDialogs.confirm(success.data.message, 'WooHoo', ['Send Another','Check Inbox'])
+            .then(function(buttonIndex) {
+              // no button = 0, 'OK' = 1, 'Cancel' = 2
+              var btnIndex = buttonIndex;
+              if(btnIndex == 1)
+                return success.data.messages;
+              else if(btnIndex == 2)
+                return success.data.messages;
+              else
+                return success.data.messages;
+            });
           return success.data.messages;
         }
-        else  
+        else{
+          $cordovaDialogs.alert("Something went wrong", "Oops!", "Continue");
           return null;
+        }
       });
     },
     openMessage: function(gameId,messageId) {
@@ -148,6 +161,7 @@ angular.module('starter.services', [])
       $http.defaults.headers.common['x-access-token'] = window.localStorage['x-access-token'];
       return $http.post('http://localhost:8080/games/messages/update', {'game-id':gameId, 'message-id':messageId, 'attempted': attempted }).then(function(success){
         if(success.data.messages){
+          $cordovaDialogs.alert("We will remember that", "Excellent!", "OK");
           return success.data.messages;
         }
         else  
